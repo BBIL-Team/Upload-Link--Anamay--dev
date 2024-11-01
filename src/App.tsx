@@ -40,9 +40,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>BBIL Production Department - Data Upload Interface</h1>
-      <button style={{ marginLeft: 'auto' }} onClick={signOut}>Sign out</button>
+    <div style={{ top: '0', display: 'flex', flexDirection: 'column', padding: '0', width: '90vw', margin: '0', boxSizing: 'border-box', backgroundColor: '#FFF', position: 'relative',left: '50%',transform: 'translateX(-50%)'}}>
+     <header>
+        <img src="https://www.bharatbiotech.com/images/bharat-biotech-logo.jpg" alt="Company Logo" className="logo" />
+         <button style={{ marginLeft: 'auto' }} onClick={signOut}>Sign out</button>
+      </header> 
+      <h1>BBIL- Data Upload Interface</h1>
       <form onSubmit={handleSubmit}>
         <label><strong>Select a CSV file to upload:</strong></label>
         <br /><br />
