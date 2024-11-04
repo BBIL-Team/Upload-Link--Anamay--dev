@@ -4,7 +4,7 @@ import '@aws-amplify/ui-react/styles.css';
 
 const App: React.FC = () => {
   return (
-    <Authenticator loginMechanisms={['username']} signUpConfig={{ hideAllDefaults: true }}>
+    <Authenticator hideSignUp={true}>
       {({ signOut, user }) => (
         <div>
           <h1>Welcome, {user?.username}</h1>
