@@ -1,10 +1,10 @@
 import React from 'react';
-import { Authenticator, AuthenticatorProps } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 const App: React.FC = () => {
   return (
-    <Authenticator signUpAttributes={{ hideSignUp: true }}>
+    <Authenticator loginMechanisms={['username']} signUpConfig={{ hideAllDefaults: true }}>
       {({ signOut, user }) => (
         <div>
           <h1>Welcome, {user?.username}</h1>
