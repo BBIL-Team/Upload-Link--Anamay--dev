@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { useAuthenticator, Authenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 const App: React.FC = () => {
   const { signOut } = useAuthenticator();
