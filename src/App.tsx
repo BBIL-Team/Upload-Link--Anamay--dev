@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './App.css'; // Import the CSS file
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import './App.css';
+import { useAuthenticator, Authenticator } from '@aws-amplify/ui-react';
 
 const App: React.FC = () => {
   const { signOut } = useAuthenticator();
@@ -39,38 +39,55 @@ const App: React.FC = () => {
       alert("An error occurred while uploading the file.");
     }
   };
-  return(
+
+  return (
     <Authenticator>
-      {({signout,user}) =>(
-      console.log("user",user)
-      console.log("signout",signout)
-      return (
-    <div  style={{ top: '0', display: 'flex', flexDirection: 'column', padding: '0', width: '90vw', margin: '0', boxSizing: 'border-box', backgroundColor: '#FFF', position: 'relative',left: '50%',transform: 'translateX(-50%)'}}>
-      <header>
-        <img src="https://www.bharatbiotech.com/images/bharat-biotech-logo.jpg" alt="Company Logo" className="logo" />
-         <button style={{ marginLeft: 'auto' }} onClick={signOut}>Sign out</button>
-      </header>
-      <h1>BBIL- Data Upload Interface</h1>
-      <form onSubmit={handleSubmit}>
-        <label><strong>Select a CSV file to upload:</strong></label>
-        <br /><br />
-        <input 
-          type="file" 
-          name="file" 
-          accept=".csv" 
-          onChange={handleFileChange} 
-        />
-        <br /><br />
-        <button 
-          type="submit" 
-          style={{ backgroundColor: "black", color: "white", width: "150px", height: "40px" }}
+      {({ signOut, user }) => (
+        <div
+          style={{
+            top: '0',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '0',
+            width: '90vw',
+            margin: '0',
+            boxSizing: 'border-box',
+            backgroundColor: '#FFF',
+            position: 'relative',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}
         >
-          Upload CSV File
-        </button>
-      </form>
-    </div>
-      )};
-   </Authenticator>
+          <header>
+            <img
+              src="https://www.bharatbiotech.com/images/bharat-biotech-logo.jpg"
+              alt="Company Logo"
+              className="logo"
+            />
+            <button style={{ marginLeft: 'auto' }} onClick={signOut}>
+              Sign out
+            </button>
+          </header>
+          <h1>BBIL - Data Upload Interface</h1>
+          <form onSubmit={handleSubmit}>
+            <label>
+              <strong>Select a CSV file to upload:</strong>
+            </label>
+            <br />
+            <br />
+            <input type="file" name="file" accept=".csv" onChange={handleFileChange} />
+            <br />
+            <br />
+            <button
+              type="submit"
+              style={{ backgroundColor: 'black', color: 'white', width: '150px', height: '40px' }}
+            >
+              Upload CSV File
+            </button>
+          </form>
+        </div>
+      )}
+    </Authenticator>
   );
 };
 
