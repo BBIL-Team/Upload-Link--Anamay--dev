@@ -69,7 +69,7 @@ const App: React.FC = () => {
         </button>
       </form>
     </div>
-      )}
+      )};
    </Authenticator>
   );
 };
