@@ -41,8 +41,6 @@ const App: React.FC = () => {
   };
 
   return (
-    <Authenticator>
-      {({ signOut, user }) => (
         <div
           style={{
             top: '0',
@@ -86,8 +84,6 @@ const App: React.FC = () => {
             </button>
           </form>
         </div>
-      )}
-    </Authenticator>
   );
 };
 
