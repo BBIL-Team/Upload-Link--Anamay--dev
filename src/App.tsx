@@ -12,21 +12,25 @@ const App: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+ const handleSubmit = async (event: React.FormEvent) => {
+  event.preventDefault();
 
-    if (!file) {
-      alert("Please select a CSV file to upload.");
-      return;
-    }
+  if (!file) {
+    alert("Please select a CSV file to upload.");
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append('file', file);
+  const reader = new FileReader();
+  reader.onloadend = async () => {
+    const csvData = reader.result?.toString(); // This will give you the CSV file content as plain text
 
-    try {
-      const response = await fetch(' https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
+    if (csvData) {
+      const response = await fetch('https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',  // Set Content-Type to JSON
+        },
+        body: JSON.stringify({ body: csvData }), // Send the CSV data as plain text in the body
       });
 
       if (response.ok) {
@@ -34,11 +38,14 @@ const App: React.FC = () => {
       } else {
         alert("Failed to upload file.");
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("An error occurred while uploading the file.");
+    } else {
+      alert("Error reading file.");
     }
   };
+
+  reader.readAsText(file);  // Read the file as plain text
+};
+
 
   return (
         <div
