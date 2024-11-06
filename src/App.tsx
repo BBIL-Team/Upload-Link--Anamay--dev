@@ -26,7 +26,6 @@ const App: React.FC = () => {
     try {
       const response = await fetch(' https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
-        body: formData,
       });
 
       if (response.ok) {
