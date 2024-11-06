@@ -24,7 +24,7 @@ const App: React.FC = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('https://hdzrw9q8r2.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
+      const response = await fetch(' https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
         body: formData,
       });
