@@ -27,9 +27,6 @@ const App: React.FC = () => {
     if (csvData) {
       const response = await fetch('https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',  // Set Content-Type to JSON
-        },
         body: JSON.stringify({ body: csvData }), // Send the CSV data as plain text in the body
       });
 
