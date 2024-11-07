@@ -42,6 +42,7 @@ const App: React.FC = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <button style={{ marginLeft: 'auto' }} onClick={signOut}>Sign out</button>
       <h1>BBIL Production Department - Data Upload Interface</h1>
       <form onSubmit={handleSubmit}>
         <label>Select a CSV file to upload:</label>
