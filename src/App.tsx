@@ -41,37 +41,19 @@ const App: React.FC = () => {
   };
 
   return (
-    <div style={{
-        top: '0',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '0',
-        width: '90vw',
-        margin: '0',
-        boxSizing: 'border-box',
-        backgroundColor: '#FFF',
-        position: 'relative',
-        left: '50%',
-        transform: 'translateX(-50%)',
-      }}>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>BBIL Production Department - Data Upload Interface</h1>
-      <button style={{ marginLeft: 'auto' }} onClick={signOut}>Sign out</button>
       <form onSubmit={handleSubmit}>
-        <label><strong>Select a CSV file to upload:</strong></label>
-        <br /><br />
-        <input 
-          type="file" 
-          name="file" 
-          accept=".csv" 
-          onChange={handleFileChange} 
+        <label>Select a CSV file to upload:</label>
+        <br />
+        <input type="file" name="file" accept=".csv" onChange={handleFileChange} />
+        <br />
+        <br />
+        <input
+          type="submit"
+          value="Upload CSV File"
+          style={{ backgroundColor: 'black', color: 'white', width: '150px', height: '40px' }}
         />
-        <br /><br />
-        <button 
-          type="submit" 
-          style={{ backgroundColor: "black", color: "white", width: "150px", height: "40px" }}
-        >
-          Upload CSV File
-        </button>
       </form>
     </div>
   );
