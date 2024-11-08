@@ -20,20 +20,30 @@ const App: React.FC = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // Read the file content as plain text
+      const plainTextFile = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+      });
+
+      // Send the file content directly as text/plain
       const response = await fetch('https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
-        enctype: "multipart/form-data",
-        body: formData,
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: plainTextFile,
       });
 
       if (response.ok) {
         alert("File uploaded successfully!");
       } else {
-        alert("Failed to upload file.");
+        const errorData = await response.json();
+        console.error("Error response from server:", errorData);
+        alert(`Failed to upload file. Error: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
