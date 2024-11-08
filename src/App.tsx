@@ -36,9 +36,6 @@ const App: React.FC = () => {
       // Send the base64 content in the JSON body
       const response = await fetch('https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           body: base64File,
         }),
