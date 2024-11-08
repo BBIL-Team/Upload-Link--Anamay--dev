@@ -20,13 +20,28 @@ const App: React.FC = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      // Read the file as a base64 encoded string
+      const base64File = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          // Remove the `data:...;base64,` prefix from the base64 string
+          const base64String = (reader.result as string).split(',')[1];
+          resolve(base64String);
+        };
+        reader.onerror = (error) => reject(error);
+      });
+
+      // Send the base64 content in the JSON body
       const response = await fetch('https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          body: base64File,
+        }),
       });
 
       if (response.ok) {
