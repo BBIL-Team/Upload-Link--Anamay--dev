@@ -12,6 +12,18 @@ const App: React.FC = () => {
     }
   };
 
+  // Helper function to encode the file to Base64
+  const encodeFileToBase64 = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);  // This encodes the file as base64
+      reader.onloadend = () => {
+        resolve(reader.result as string);  // Exclude the "data:..." prefix
+      };
+      reader.onerror = reject;
+    });
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -21,21 +33,17 @@ const App: React.FC = () => {
     }
 
     try {
-      // Read the file content as plain text
-      const plainTextFile = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-      });
+      // Convert the file to base64
+      const base64File = await encodeFileToBase64(file);
+      const base64Data = base64File.split(',')[1]; // Remove the prefix "data:;base64,"
 
-      // Send the file content directly as text/plain
+      // Send the base64 string directly to the API
       const response = await fetch('https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'application/json',  // Use JSON because we're sending the base64 string as part of a JSON payload
         },
-        body: plainTextFile,
+        body: JSON.stringify({ body: base64Data }),  // Send base64-encoded file data
       });
 
       if (response.ok) {
