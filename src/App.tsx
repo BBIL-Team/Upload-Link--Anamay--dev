@@ -18,34 +18,26 @@ const App: React.FC = () => {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const base64File = reader.result?.toString().split(',')[1]; // Extract base64 data
+    // FormData is used to send files with POST request
+    const formData = new FormData();
+    formData.append('file', file); // Append the file to FormData with key 'file'
 
-      if (!base64File) {
-        alert("File encoding failed.");
-        return;
+    try {
+      const response = await fetch("https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay", {
+        method: "POST",
+        body: formData, // Send FormData containing the file
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message || "File uploaded successfully!");
+      } else {
+        alert("Failed to upload file.");
       }
-
-      try {
-        const response = await fetch("https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay", {
-          method: "POST",
-          body: JSON.stringify({ body: base64File }), // Send base64 data as JSON
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          alert(data.message || "File uploaded successfully!");
-        } else {
-          alert("Failed to upload file.");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred while uploading the file.");
-      }
-    };
-
-    reader.readAsDataURL(file); // Read file as a Data URL
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while uploading the file.");
+    }
   };
 
   return (
