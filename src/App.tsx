@@ -1,79 +1,40 @@
 import React, { useState } from "react";
+import './App.css';
 
 const App = () => {
   // State to manage file inputs and responses for both stocks and sales files
   const [stocksFile, setStocksFile] = useState<File | null>(null);
   const [salesFile, setSalesFile] = useState<File | null>(null);
-  const [stocksResponse, setStocksResponse] = useState<string>("");
-  const [salesResponse, setSalesResponse] = useState<string>("");
+  const [responseMessage, setResponseMessage] = useState<string>("");
 
-  // Handle file selection for stocks
-  const handleStocksFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setStocksFile(event.target.files[0]);
-    }
-  };
-
-  // Handle file selection for sales
-  const handleSalesFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setSalesFile(event.target.files[0]);
-    }
-  };
-
-  // Upload the stocks data file
-  const uploadStocksFile = async () => {
-    if (!stocksFile) {
-      setStocksResponse("No stocks file selected.");
+  // Generic file upload function
+  const uploadFile = async (file: File | null, apiUrl: string) => {
+    if (!file) {
+      setResponseMessage("No file selected.");
       return;
     }
 
-   const response = await fetch(" https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay", {
-      method: "POST",
-      body: formData, // Send FormData containing the file
-      headers: {
-        // Do not set Content-Type, FormData will automatically set it
-      }
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      alert(data.message || "File uploaded successfully!");
-    } else {
-      alert("Failed to upload file.");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred while uploading the file.");
-  }
-};
-  // Upload the sales data file
-  const uploadSalesFile = async () => {
-    if (!salesFile) {
-      setSalesResponse("No sales file selected.");
-      return;
-    }
+    const formData = new FormData();
+    formData.append("file", file);
 
     try {
-      const response = await fetch(" https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales", {
-      method: "POST",
-      body: formData, // Send FormData containing the file
-      headers: {
-        // Do not set Content-Type, FormData will automatically set it
-      }
-    });
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      alert(data.message || "File uploaded successfully!");
-    } else {
-      alert("Failed to upload file.");
+      if (response.ok) {
+        const data = await response.json();
+        setResponseMessage(data.message || "File uploaded successfully!");
+      } else {
+        const errorText = await response.text();
+        setResponseMessage(`Failed to upload file: ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setResponseMessage("An error occurred while uploading the file.");
     }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred while uploading the file.");
-  }
-};
+  };
 
   return (
     <div>
@@ -82,9 +43,21 @@ const App = () => {
       {/* Stocks File Upload */}
       <div>
         <h2>Upload Stocks Data</h2>
-        <input type="file" accept=".csv" onChange={handleStocksFileChange} />
-        <button onClick={uploadStocksFile}>Upload Stocks File</button>
-        {stocksResponse && <p>{stocksResponse}</p>}
+        <input
+          type="file"
+          accept=".csv"
+          onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
+        />
+        <button
+          onClick={() =>
+            uploadFile(
+              stocksFile,
+              "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay"
+            )
+          }
+        >
+          Upload Stocks File
+        </button>
       </div>
 
       <hr />
@@ -92,10 +65,24 @@ const App = () => {
       {/* Sales File Upload */}
       <div>
         <h2>Upload Sales Data</h2>
-        <input type="file" accept=".csv" onChange={handleSalesFileChange} />
-        <button onClick={uploadSalesFile}>Upload Sales File</button>
-        {salesResponse && <p>{salesResponse}</p>}
+        <input
+          type="file"
+          accept=".csv"
+          onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
+        />
+        <button
+          onClick={() =>
+            uploadFile(
+              salesFile,
+              "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales"
+            )
+          }
+        >
+          Upload Sales File
+        </button>
       </div>
+
+      {responseMessage && <p>{responseMessage}</p>}
     </div>
   );
 };
