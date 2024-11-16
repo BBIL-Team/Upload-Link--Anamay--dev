@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 const App: React.FC = () => {
+  const { signOut } = useAuthenticator();
   const [stocksFile, setStocksFile] = useState<File | null>(null);
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
