@@ -46,6 +46,10 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <header style={{ width: '100%' }}>
+                <img src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" alt="Company Logo" className="logo" />
+                <button style={{ marginLeft: 'auto' }} onClick={signOut}>Sign out</button>
+            </header>
       <h1>File Upload</h1>
 
       {/* Stocks File Upload */}
