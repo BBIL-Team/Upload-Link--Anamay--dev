@@ -22,7 +22,7 @@ const App: React.FC = () => {
   formData.append('file', file); // Append the file to FormData with key 'file'
 
   try {
-    const response = await fetch("https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay", {
+    const response = await fetch(" https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales", {
       method: "POST",
       body: formData, // Send FormData containing the file
       headers: {
