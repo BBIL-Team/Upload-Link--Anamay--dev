@@ -6,24 +6,26 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
 
-  // Handle file input change
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
+  // Validate file type
+  const validateFile = (file: File | null): boolean => {
+    if (file && file.name.endsWith(".csv")) {
+      return true;
     }
+    alert("Please upload a valid CSV file.");
+    return false;
   };
 
   // Upload file function
- const uploadFile = async () => {
-  if (!file) {
-    alert("Please select a CSV file to upload.");
-    return;
-  }
+  const uploadFile = async (file: File | null, apiUrl: string) => {
+    if (!file) {
+      alert("Please select a CSV file to upload.");
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('file', file); // Append the file to FormData with key 'file'
+    const formData = new FormData();
+    formData.append('file', file); // Append the file to FormData with key 'file'
 
-   try {
+    try {
       const response = await fetch(apiUrl, {
         method: "POST",
         body: formData,
@@ -55,12 +57,14 @@ const App: React.FC = () => {
           onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
         />
         <button
-          onClick={() =>
-            uploadFile(
-              stocksFile,
-              "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay"
-            )
-          }
+          onClick={() => {
+            if (validateFile(stocksFile)) {
+              uploadFile(
+                stocksFile,
+                "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay"
+              );
+            }
+          }}
         >
           Upload Stocks File
         </button>
@@ -77,12 +81,14 @@ const App: React.FC = () => {
           onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
         />
         <button
-          onClick={() =>
-            uploadFile(
-              salesFile,
-              "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales"
-            )
-          }
+          onClick={() => {
+            if (validateFile(salesFile)) {
+              uploadFile(
+                salesFile,
+                "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales"
+              );
+            }
+          }}
         >
           Upload Sales File
         </button>
