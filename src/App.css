@@ -1,6 +1,6 @@
 header {
     background-color:#483d8b;
-    display: top;
+    display:flex;
     align-items: center;
     color: white;
 }
