@@ -1,28 +1,61 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
 
-const App: React.FC = () => {
-  const [file, setFile] = useState<File | null>(null);
+const App = () => {
+  // State to manage file inputs and responses for both stocks and sales files
+  const [stocksFile, setStocksFile] = useState<File | null>(null);
+  const [salesFile, setSalesFile] = useState<File | null>(null);
+  const [stocksResponse, setStocksResponse] = useState<string>("");
+  const [salesResponse, setSalesResponse] = useState<string>("");
 
-  // Handle file input change
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle file selection for stocks
+  const handleStocksFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFile(event.target.files[0]);
+      setStocksFile(event.target.files[0]);
     }
   };
 
-  // Upload file function
- const uploadFile = async () => {
-  if (!file) {
-    alert("Please select a CSV file to upload.");
-    return;
+  // Handle file selection for sales
+  const handleSalesFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setSalesFile(event.target.files[0]);
+    }
+  };
+
+  // Upload the stocks data file
+  const uploadStocksFile = async () => {
+    if (!stocksFile) {
+      setStocksResponse("No stocks file selected.");
+      return;
+    }
+
+   const response = await fetch(" https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay", {
+      method: "POST",
+      body: formData, // Send FormData containing the file
+      headers: {
+        // Do not set Content-Type, FormData will automatically set it
+      }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      alert(data.message || "File uploaded successfully!");
+    } else {
+      alert("Failed to upload file.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while uploading the file.");
   }
+};
+  // Upload the sales data file
+  const uploadSalesFile = async () => {
+    if (!salesFile) {
+      setSalesResponse("No sales file selected.");
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('file', file); // Append the file to FormData with key 'file'
-
-  try {
-    const response = await fetch(" https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales", {
+    try {
+      const response = await fetch(" https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales", {
       method: "POST",
       body: formData, // Send FormData containing the file
       headers: {
@@ -43,24 +76,26 @@ const App: React.FC = () => {
 };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>BBIL Production Department - Data Upload Interface</h1>
-      <label><strong>Select a CSV file to upload:</strong></label>
-      <br />
-      <input
-        type="file"
-        id="fileInput"
-        accept=".csv"
-        onChange={handleFileChange}
-      />
-      <br />
-      <br />
-      <button
-        onClick={uploadFile}
-        style={{ backgroundColor: 'black', color: 'white', width: '150px', height: '40px' }}
-      >
-        Upload CSV File
-      </button>
+    <div>
+      <h1>File Upload</h1>
+
+      {/* Stocks File Upload */}
+      <div>
+        <h2>Upload Stocks Data</h2>
+        <input type="file" accept=".csv" onChange={handleStocksFileChange} />
+        <button onClick={uploadStocksFile}>Upload Stocks File</button>
+        {stocksResponse && <p>{stocksResponse}</p>}
+      </div>
+
+      <hr />
+
+      {/* Sales File Upload */}
+      <div>
+        <h2>Upload Sales Data</h2>
+        <input type="file" accept=".csv" onChange={handleSalesFileChange} />
+        <button onClick={uploadSalesFile}>Upload Sales File</button>
+        {salesResponse && <p>{salesResponse}</p>}
+      </div>
     </div>
   );
 };
