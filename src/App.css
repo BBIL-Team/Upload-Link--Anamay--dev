@@ -1,12 +1,11 @@
 header {
     background-color:#483d8b;
-    display: flex;
+    display: top;
     align-items: center;
     color: white;
 }
 
 .logo {
     height: 120px;
-    width: 50%;
     margin-right: 20px;
 }
