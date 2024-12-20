@@ -51,7 +51,7 @@ const App: React.FC = () => {
     <div>
       <header style={{ width: '100%' }}>
                 <img style={{ padding: '10px'}} src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" alt="Company Logo" className="logo" />
-                <button  style={{ margin: '20px 20px 20px 720px;' }} onClick={signOut}>Sign out</button>
+                <button  style={{ marginLeft: 'auto',  marginRight: '10px' }} onClick={signOut}>Sign out</button>
             </header>
       <h1 style={{ padding: '10px', textAlign: 'center' }}>Anamay Dashboard Update interface</h1>
 
