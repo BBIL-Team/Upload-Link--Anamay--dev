@@ -82,7 +82,7 @@ const App: React.FC = () => {
       {/* Sales File Upload */}
       <div>
         <h2>Upload Sales Data</h2>
-        <input
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}><input
           type="file"
           accept=".csv"
           onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
@@ -98,7 +98,7 @@ const App: React.FC = () => {
           }}
         >
           Upload Sales File
-        </button>
+        </button></p>
       </div>
 
       {responseMessage && <p>{responseMessage}</p>}
