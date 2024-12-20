@@ -97,7 +97,7 @@ const App: React.FC = () => {
             }
           }}
         >
-          Upload Sales File
+          Upload Sales File.
         </button></p>
       </div>
 
