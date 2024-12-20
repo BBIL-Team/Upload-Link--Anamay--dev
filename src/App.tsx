@@ -50,8 +50,8 @@ const App: React.FC = () => {
     <main style={{ display: 'flex', justifyContent: 'center', width: '90vw', backgroundColor: '#f8f8ff' }}> 
     <div>
       <header style={{ width: '100%' }}>
-                <div>
-                <img style={{ padding: '10px', width: '10%', height: '10%', objectFit: 'cover', objectPosition: '50% 50%',}} src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" alt="Company Logo" className="logo" />
+                <div style={{ width: '60px', height: '60px', overflow: 'hidden', borderRadius: '8px', }}>
+                <img style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%',}} src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" alt="Company Logo" className="logo" />
                 </div>
                 <button  style={{ marginLeft: 'auto',  marginRight: '20px' }} onClick={signOut}>Sign out</button>
             </header>
