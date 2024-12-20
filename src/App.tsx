@@ -58,7 +58,7 @@ const App: React.FC = () => {
       {/* Stocks File Upload */}
       <div>
         <h2>Upload Stocks Data</h2>
-        <p>&emsp;&emsp;<input
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>&emsp;&emsp;<input
           type="file"
           accept=".csv"
           onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
