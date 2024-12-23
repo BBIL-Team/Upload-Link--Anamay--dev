@@ -75,7 +75,7 @@ const App: React.FC = () => {
             }
           }}
         >
-          Upload Stocks File
+          Submit Stocks File
         </button></p>
       </div>
 
@@ -83,7 +83,7 @@ const App: React.FC = () => {
 
       {/* Sales File Upload */}
       <div>
-        <h2>&emsp;&emsp;Upload Sales Data</h2>
+        <h2>&emsp;&emsp; Sales Data</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>&emsp;&emsp;&emsp;&emsp;<input
           type="file"
           accept=".csv"
@@ -99,7 +99,7 @@ const App: React.FC = () => {
             }
           }}
         >
-          Upload Sales File.
+          Submit Sales File.
         </button></p>
       </div>
 
