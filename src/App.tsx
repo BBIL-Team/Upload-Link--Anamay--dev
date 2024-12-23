@@ -59,7 +59,7 @@ const App: React.FC = () => {
 
       {/* Stocks File Upload */}
       <div>
-        <h2>&emsp;&emsp; Stocks file</h2>
+        <h2>&emsp;&emsp;Anamay Stocks</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>&emsp;&emsp;&emsp;&emsp;<input
           type="file"
           accept=".csv"
@@ -83,7 +83,7 @@ const App: React.FC = () => {
 
       {/* Sales File Upload */}
       <div>
-        <h2>&emsp;&emsp; Sales file</h2>
+        <h2>&emsp;&emsp;Anamay Sales</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>&emsp;&emsp;&emsp;&emsp;<input
           type="file"
           accept=".csv"
