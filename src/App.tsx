@@ -175,11 +175,11 @@ const App: React.FC = () => {
       <div style={{ width: '300px', padding: '20px', backgroundColor: '#e6f7ff', borderRadius: '8px' }}>
         <h3 style={{ textAlign: 'center' }}>Calendar</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <button onClick={prevMonth}>&lt; Prev</button>
+          <button onClick={prevMonth}>&lt; </button>
           <span style={{ margin: '0 10px' }}>
             {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
           </span>
-          <button onClick={nextMonth}>Next &gt;</button>
+          <button onClick={nextMonth}>;</button>
         </div>
         {renderCalendar(currentDate)}
       </div>
