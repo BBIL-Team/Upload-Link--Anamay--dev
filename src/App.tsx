@@ -179,7 +179,7 @@ const App: React.FC = () => {
           <span style={{ margin: '0 10px' }}>
             {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
           </span>
-          <button onClick={nextMonth}> > </button>
+          <button onClick={nextMonth}>&gt; </button>
         </div>
         {renderCalendar(currentDate)}
       </div>
