@@ -118,7 +118,7 @@ const App: React.FC = () => {
         <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>Sign out</button>
       </header>
 
-      <h1 style="padding: 10px;text-align: center;width: 100vw;"><u>Anamay - Dashboard Update interface</u></h1>
+      <h1 style={{ padding: '10px'; text-align: 'center'; width: '100vw'; }}><u>Anamay - Dashboard Update interface</u></h1>
 
       {/* Stocks File Upload */}
       <div>
