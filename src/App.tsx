@@ -120,19 +120,6 @@ const App: React.FC = () => {
 
       <h1 style={{ padding: '10px', textAlign: 'center' }}><u>Anamay - Dashboard Update interface</u></h1>
 
-      {/* Calendar Component - Moved here */}
-      <div style={{ width: '300px', padding: '20px', backgroundColor: '#e6f7ff', borderRadius: '8px', marginBottom: '20px' }}>
-        <h3 style={{ textAlign: 'center' }}>Calendar</h3>
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <button onClick={prevMonth}>&lt; </button>
-          <span style={{ margin: '0 10px' }}>
-            {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-          </span>
-          <button onClick={nextMonth}>&gt; </button>
-        </div>
-        {renderCalendar(currentDate)}
-      </div>
-
       {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
@@ -184,6 +171,29 @@ const App: React.FC = () => {
       </div>
 
       {responseMessage && <p>{responseMessage}</p>}
+
+      {/* Calendar Component - Positioned at the top-right corner */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '120px',  // Adjust based on your header height
+          right: '20px',
+          width: '300px',
+          padding: '20px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}
+      >
+        <h3 style={{ textAlign: 'center' }}>Calendar</h3>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <button onClick={prevMonth}>&lt; </button>
+          <span style={{ margin: '0 10px' }}>
+            {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          </span>
+          <button onClick={nextMonth}>&gt; </button>
+        </div>
+        {renderCalendar(currentDate)}
+      </div>
     </main>
   );
 };
