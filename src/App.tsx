@@ -105,74 +105,23 @@ const App: React.FC = () => {
   };
 
   return (
-    <main style={{ display: 'flex', justifyContent: 'space-between', width: '90vw', backgroundColor: '#f8f8ff' }}> 
-      <div style={{ flex: 1 }}>
-        <header style={{ width: '100%' }}>
-          <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-            <img style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }} 
-                 src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" 
-                 alt="Company Logo" className="logo" />
-          </div>
-          <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>Sign out</button>
-        </header>
-
-        <h1 style={{ padding: '10px', textAlign: 'center' }}><u>Anamay - Dashboard Update interface</u></h1>
-
-        {/* Stocks File Upload */}
-        <div>
-          <h2>&emsp;&emsp;Anamay Stocks</h2>
-          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
-            &emsp;&emsp;&emsp;&emsp;<input
-              type="file"
-              accept=".csv"
-              onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
-            />
-            <button
-              onClick={() => {
-                if (validateFile(stocksFile)) {
-                  uploadFile(
-                    stocksFile,
-                    "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay"
-                  );
-                }
-              }}
-            >
-              Submit Stocks File
-            </button>
-          </p>
+    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+      
+      <header style={{ width: '100%' }}>
+        <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
+          <img 
+            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }} 
+            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" 
+            alt="Company Logo" className="logo" 
+          />
         </div>
+        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>Sign out</button>
+      </header>
 
-        <hr />
+      <h1 style={{ padding: '10px', textAlign: 'center' }}><u>Anamay - Dashboard Update interface</u></h1>
 
-        {/* Sales File Upload */}
-        <div>
-          <h2>&emsp;&emsp;Anamay Sales</h2>
-          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
-            &emsp;&emsp;&emsp;&emsp;<input
-              type="file"
-              accept=".csv"
-              onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
-            />
-            <button
-              onClick={() => {
-                if (validateFile(salesFile)) {
-                  uploadFile(
-                    salesFile,
-                    "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales"
-                  );
-                }
-              }}
-            >
-              Submit Sales File.
-            </button>
-          </p>
-        </div>
-
-        {responseMessage && <p>{responseMessage}</p>}
-      </div>
-
-      {/* Calendar Component */}
-      <div style={{ width: '300px', padding: '20px', backgroundColor: '#e6f7ff', borderRadius: '8px' }}>
+      {/* Calendar Component - Moved here */}
+      <div style={{ width: '300px', padding: '20px', backgroundColor: '#e6f7ff', borderRadius: '8px', marginBottom: '20px' }}>
         <h3 style={{ textAlign: 'center' }}>Calendar</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <button onClick={prevMonth}>&lt; </button>
@@ -183,6 +132,58 @@ const App: React.FC = () => {
         </div>
         {renderCalendar(currentDate)}
       </div>
+
+      {/* Stocks File Upload */}
+      <div>
+        <h2>&emsp;&emsp;Anamay Stocks</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+          &emsp;&emsp;&emsp;&emsp;<input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
+          />
+          <button
+            onClick={() => {
+              if (validateFile(stocksFile)) {
+                uploadFile(
+                  stocksFile,
+                  "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay"
+                );
+              }
+            }}
+          >
+            Submit Stocks File
+          </button>
+        </p>
+      </div>
+
+      <hr />
+
+      {/* Sales File Upload */}
+      <div>
+        <h2>&emsp;&emsp;Anamay Sales</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+          &emsp;&emsp;&emsp;&emsp;<input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
+          />
+          <button
+            onClick={() => {
+              if (validateFile(salesFile)) {
+                uploadFile(
+                  salesFile,
+                  "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales"
+                );
+              }
+            }}
+          >
+            Submit Sales File.
+          </button>
+        </p>
+      </div>
+
+      {responseMessage && <p>{responseMessage}</p>}
     </main>
   );
 };
