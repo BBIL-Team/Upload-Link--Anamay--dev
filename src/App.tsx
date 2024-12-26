@@ -41,7 +41,7 @@ const App: React.FC = () => {
     }
 
     return (
-      <table className="calendar-table">
+      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}>
         <thead>
           <tr>
             <th>Sun</th>
