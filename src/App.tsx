@@ -118,12 +118,12 @@ const App: React.FC = () => {
         <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>Sign out</button>
       </header>
 
-      <h1 style={{ padding: '10px', textAlign: 'center' }}><u>Anamay - Dashboard Update interface</u></h1>
+      <h1 style="padding: 10px;text-align: center;width: 100vw;"><u>Anamay - Dashboard Update interface</u></h1>
 
       {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px',width: '50vw',height: '70px', float: 'left',verticalalign:-'webkit-baseline-middle'}}>
           &emsp;&emsp;&emsp;&emsp;<input
             type="file"
             accept=".csv"
@@ -149,7 +149,7 @@ const App: React.FC = () => {
       {/* Sales File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Sales</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw',height: '70px',verticalalign: '-webkit-baseline-middle' }}>
           &emsp;&emsp;&emsp;&emsp;<input
             type="file"
             accept=".csv"
@@ -176,8 +176,8 @@ const App: React.FC = () => {
       <div 
         style={{
           position: 'absolute',
-          top: '120px',  // Adjust based on your header height
-          right: '20px',
+          top: '220px',  // Adjust based on your header height
+          right: '120px',
           width: '300px',
           padding: '20px',
           backgroundColor: '#e6f7ff',
