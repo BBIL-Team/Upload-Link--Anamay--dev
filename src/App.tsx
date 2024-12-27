@@ -66,7 +66,7 @@ const App: React.FC = () => {
     // Fill days of the month with status colors
     for (let day = 1; day <= daysInMonth; day++) {
       const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
+     // const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
       daysArray.push(
         <td key={day} className={`day ${statusClass}`}>
           {day}
