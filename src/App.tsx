@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Removed 'useEffect'
+import React, { useState } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
@@ -7,23 +7,70 @@ const App: React.FC = () => {
   const [stocksFile, setStocksFile] = useState<File | null>(null);
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
-  const [currentDate, setCurrentDate] = useState<Date>(new Date()); // Manage current month
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>({});
 
-  // Function to render calendar for the current month
+  // Validate file type
+  const validateFile = (file: File | null): boolean => {
+    if (file && file.name.endsWith(".csv")) {
+      return true;
+    }
+    alert("Please upload a valid CSV file.");
+    return false;
+  };
+
+  // Upload file function
+  const uploadFile = async (file: File | null, apiUrl: string) => {
+    if (!file) {
+      alert("Please select a CSV file to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setResponseMessage(data.message || "File uploaded successfully!");
+
+        // Update upload status for the current date
+        const today = new Date().toISOString().split('T')[0];
+        setUploadStatus((prevStatus) => ({ ...prevStatus, [today]: 'green' }));
+      } else {
+        const errorText = await response.text();
+        setResponseMessage(`Failed to upload file: ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setResponseMessage("An error occurred while uploading the file.");
+    }
+  };
+
+  // Render calendar
   const renderCalendar = (date: Date) => {
     const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     const daysArray = [];
 
-    // Fill in the empty spaces before the start of the month
+    // Fill empty spaces before the start of the month
     for (let i = 0; i < firstDayOfMonth; i++) {
       daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
     }
 
-    // Fill in the days of the month
+    // Fill days of the month with status colors
     for (let day = 1; day <= daysInMonth; day++) {
+      const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
       daysArray.push(
-        <td key={day} className="day">{day}</td>
+        <td key={day} className={`day ${statusClass}`}>
+          {day}
+        </td>
       );
     }
 
@@ -58,58 +105,12 @@ const App: React.FC = () => {
     );
   };
 
-  const nextMonth = () => {
-    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
-  };
 
-  const prevMonth = () => {
-    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
-  };
-
-  // Validate file type
-  const validateFile = (file: File | null): boolean => {
-    if (file && file.name.endsWith(".csv")) {
-      return true;
-    }
-    alert("Please upload a valid CSV file.");
-    return false;
-  };
-
-  // Upload file function
-  const uploadFile = async (file: File | null, apiUrl: string) => {
-    if (!file) {
-      alert("Please select a CSV file to upload.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file); // Append the file to FormData with key 'file'
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setResponseMessage(data.message || "File uploaded successfully!");
-        
-         // Update upload status for the current date
-        const today = new Date().toISOString().split('T')[0];
-        setUploadStatus((prevStatus) => ({ ...prevStatus, [today]: 'green' }));
-      } else {
-        const errorText = await response.text();
-        setResponseMessage(`Failed to upload file: ${errorText}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setResponseMessage("An error occurred while uploading the file.");
-    }
-  };
+  const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
+  const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+   <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
       
       <header style={{ width: '100%' }}>
         <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
@@ -201,5 +202,6 @@ const App: React.FC = () => {
     </main>
   );
 };
+
 
 export default App;
