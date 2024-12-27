@@ -8,6 +8,7 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date()); // Manage current month
+  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>({});
 
   // Function to render calendar for the current month
   const renderCalendar = (date: Date) => {
@@ -94,6 +95,10 @@ const App: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setResponseMessage(data.message || "File uploaded successfully!");
+        
+         // Update upload status for the current date
+        const today = new Date().toISOString().split('T')[0];
+        setUploadStatus((prevStatus) => ({ ...prevStatus, [today]: 'green' }));
       } else {
         const errorText = await response.text();
         setResponseMessage(`Failed to upload file: ${errorText}`);
