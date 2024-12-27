@@ -176,9 +176,9 @@ const App: React.FC = () => {
       <div 
         style={{
           position: 'absolute',
-          top: '220px',  // Adjust based on your header height
-          right: '120px',
-          width: '300px',
+          top: '40vh',  // Adjust based on your header height
+          right: '10vw',
+          width: '25vw',
           padding: '20px',
           backgroundColor: '#e6f7ff',
           borderRadius: '8px',
