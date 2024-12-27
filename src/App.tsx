@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Removed 'useEffect'
+import React, { useState } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
@@ -8,6 +8,7 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date()); // Manage current month
+  const [uploadedDates, setUploadedDates] = useState<Set<number>>(new Set()); // Track uploaded dates
 
   // Function to render calendar for the current month
   const renderCalendar = (date: Date) => {
@@ -22,8 +23,11 @@ const App: React.FC = () => {
 
     // Fill in the days of the month
     for (let day = 1; day <= daysInMonth; day++) {
+      const isUploaded = uploadedDates.has(day); // Check if the day is in uploaded dates
       daysArray.push(
-        <td key={day} className="day">{day}</td>
+        <td key={day} className={`day ${isUploaded ? 'green' : 'red'}`}>
+          {day}
+        </td>
       );
     }
 
@@ -41,7 +45,7 @@ const App: React.FC = () => {
     }
 
     return (
-      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}>
+      <table className="calendar-table">
         <thead>
           <tr>
             <th>Sun</th>
@@ -94,6 +98,12 @@ const App: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setResponseMessage(data.message || "File uploaded successfully!");
+
+        // Get today's date and mark it as uploaded
+        const today = new Date();
+        if (file === stocksFile || file === salesFile) {
+          setUploadedDates(prev => new Set(prev.add(today.getDate())));
+        }
       } else {
         const errorText = await response.text();
         setResponseMessage(`Failed to upload file: ${errorText}`);
@@ -106,13 +116,12 @@ const App: React.FC = () => {
 
   return (
     <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
-      
       <header style={{ width: '100%' }}>
         <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-          <img 
-            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }} 
-            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" 
-            alt="Company Logo" className="logo" 
+          <img
+            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
+            alt="Company Logo" className="logo"
           />
         </div>
         <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>Sign out</button>
@@ -123,7 +132,7 @@ const App: React.FC = () => {
       {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px',width: '50vw',height: '70px', float: 'left',verticalAlign:-'webkit-baseline-middle'}}>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left', verticalAlign: 'baseline' }}>
           &emsp;&emsp;&emsp;&emsp;<input
             type="file"
             accept=".csv"
@@ -149,7 +158,7 @@ const App: React.FC = () => {
       {/* Sales File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Sales</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw',height: '70px',verticalAlign: '-webkit-baseline-middle' }}>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', verticalAlign: 'baseline' }}>
           &emsp;&emsp;&emsp;&emsp;<input
             type="file"
             accept=".csv"
@@ -165,15 +174,15 @@ const App: React.FC = () => {
               }
             }}
           >
-            Submit Sales File.
+            Submit Sales File
           </button>
         </p>
       </div>
 
       {responseMessage && <p>{responseMessage}</p>}
 
-      {/* Calendar Component - Positioned at the top-right corner */}
-      <div 
+      {/* Calendar Component */}
+      <div
         style={{
           position: 'absolute',
           top: '40vh',  // Adjust based on your header height
