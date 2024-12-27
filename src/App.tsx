@@ -8,7 +8,6 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date()); // Manage current month
-  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>({});
 
   // Function to render calendar for the current month
   const renderCalendar = (date: Date) => {
