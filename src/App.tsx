@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
@@ -8,7 +8,14 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>({});
+  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>(
+    () => JSON.parse(localStorage.getItem('uploadStatus') || '{}') // Load from localStorage
+  );
+
+  // Save uploadStatus to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('uploadStatus', JSON.stringify(uploadStatus));
+  }, [uploadStatus]);
 
   // Validate file type
   const validateFile = (file: File | null): boolean => {
@@ -66,7 +73,7 @@ const App: React.FC = () => {
     // Fill days of the month with status colors
     for (let day = 1; day <= daysInMonth; day++) {
       const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-     // const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
+      const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
       daysArray.push(
         <td key={day} className={`day ${statusClass}`}>
           {day}
@@ -105,31 +112,35 @@ const App: React.FC = () => {
     );
   };
 
-
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
   return (
-   <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
-      
+    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
       <header style={{ width: '100%' }}>
         <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-          <img 
-            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }} 
-            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo" 
-            alt="Company Logo" className="logo" 
+          <img
+            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
+            alt="Company Logo"
+            className="logo"
           />
         </div>
-        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>Sign out</button>
+        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+          Sign out
+        </button>
       </header>
 
-      <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}><u>Anamay - Dashboard Update interface</u></h1>
+      <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
+        <u>Anamay - Dashboard Update Interface</u>
+      </h1>
 
       {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px',width: '50vw',height: '70px', float: 'left',verticalAlign:-'webkit-baseline-middle'}}>
-          &emsp;&emsp;&emsp;&emsp;<input
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input
             type="file"
             accept=".csv"
             onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
@@ -137,10 +148,7 @@ const App: React.FC = () => {
           <button
             onClick={() => {
               if (validateFile(stocksFile)) {
-                uploadFile(
-                  stocksFile,
-                  "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay"
-                );
+                uploadFile(stocksFile, "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay");
               }
             }}
           >
@@ -154,8 +162,9 @@ const App: React.FC = () => {
       {/* Sales File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Sales</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw',height: '70px',verticalAlign: '-webkit-baseline-middle' }}>
-          &emsp;&emsp;&emsp;&emsp;<input
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input
             type="file"
             accept=".csv"
             onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
@@ -163,25 +172,22 @@ const App: React.FC = () => {
           <button
             onClick={() => {
               if (validateFile(salesFile)) {
-                uploadFile(
-                  salesFile,
-                  "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales"
-                );
+                uploadFile(salesFile, "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales");
               }
             }}
           >
-            Submit Sales File.
+            Submit Sales File
           </button>
         </p>
       </div>
 
       {responseMessage && <p>{responseMessage}</p>}
 
-      {/* Calendar Component - Positioned at the top-right corner */}
-      <div 
+      {/* Calendar Component */}
+      <div
         style={{
           position: 'absolute',
-          top: '40vh',  // Adjust based on your header height
+          top: '40vh',
           right: '10vw',
           width: '25vw',
           padding: '20px',
@@ -202,6 +208,5 @@ const App: React.FC = () => {
     </main>
   );
 };
-
 
 export default App;
