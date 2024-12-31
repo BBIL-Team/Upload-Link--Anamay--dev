@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
@@ -8,9 +10,8 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>(
-    () => JSON.parse(localStorage.getItem('uploadStatus') || '{}') // Load from localStorage
-  );
+  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>
+  const [markedDate, setMarkedDate] = useState<Date | null>(null);
 
   // Save uploadStatus to localStorage whenever it changes
   useEffect(() => {
@@ -48,7 +49,7 @@ const App: React.FC = () => {
 
         // Update upload status for the current date
         const today = new Date().toISOString().split('T')[0];
-        setUploadStatus((prevStatus) => ({ ...prevStatus, [today]: 'green' }));
+       setMarkedDate(new Date()); // Mark the current day as successful
       } else {
         const errorText = await response.text();
         setResponseMessage(`Failed to upload file: ${errorText}`);
@@ -60,60 +61,42 @@ const App: React.FC = () => {
   };
 
   // Render calendar
-  const renderCalendar = (date: Date) => {
-    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    const daysArray = [];
+  //const renderCalendar = (date: Date) => {
+    //const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    //const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    //const daysArray = [];
 
     // Fill empty spaces before the start of the month
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
+    //for (let i = 0; i < firstDayOfMonth; i++) {
+      //daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
     }
 
     // Fill days of the month with status colors
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
-      daysArray.push(
-        <td key={day} className={`day ${statusClass}`}>
-          {day}
-        </td>
-      );
-    }
+    //for (let day = 1; day <= daysInMonth; day++) {
+      //const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      //const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
+      //daysArray.push(
+        //<td key={day} className={`day ${statusClass}`}>
+          //{day}
+        //</td>
+      //);
+    //}
 
-    const weeks = [];
-    let week = [];
-    for (let i = 0; i < daysArray.length; i++) {
-      week.push(daysArray[i]);
-      if (week.length === 7) {
-        weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
-        week = [];
-      }
-    }
-    if (week.length > 0) {
-      weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
-    }
+    //const weeks = [];
+    //let week = [];
+    //for (let i = 0; i < daysArray.length; i++) {
+      //week.push(daysArray[i]);
+      //if (week.length === 7) {
+        //weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+        //week = [];
+      //}
+    //}
+    //if (week.length > 0) {
+      //weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+    //}
 
-    return (
-      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}>
-        <thead>
-          <tr>
-            <th>Sun</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-        </thead>
-        <tbody>{weeks}</tbody>
-      </table>
-    );
-  };
 
-  const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
-  const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
+ 
 
   return (
     <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
@@ -182,28 +165,10 @@ const App: React.FC = () => {
       </div>
 
       {responseMessage && <p>{responseMessage}</p>}
-
-      {/* Calendar Component */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '40vh',
-          right: '10vw',
-          width: '25vw',
-          padding: '20px',
-          backgroundColor: '#e6f7ff',
-          borderRadius: '8px',
-        }}
-      >
-        <h3 style={{ textAlign: 'center' }}>Calendar</h3>
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <button onClick={prevMonth}>&lt; </button>
-          <span style={{ margin: '0 10px' }}>
-            {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-          </span>
-          <button onClick={nextMonth}>&gt; </button>
-        </div>
-        {renderCalendar(currentDate)}
+      <div className="calendar-section">
+        <h2>Upload Calendar</h2>
+        <Calendar tileClassName={tileClassName} />
+      </div>
       </div>
     </main>
   );
