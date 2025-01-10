@@ -22,7 +22,7 @@ const App: React.FC = () => {
     if (file && file.name.endsWith(".csv")) {
       return true;
     }
-    alert("Please upload a valid CSV file.");
+    // alert("Please upload a valid CSV file.");
     return false;
   };
 
