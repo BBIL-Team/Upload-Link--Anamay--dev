@@ -8,14 +8,6 @@ const App: React.FC = () => {
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [uploadStatus, setUploadStatus] = useState<{ [date: string]: string }>(
-    () => JSON.parse(localStorage.getItem('uploadStatus') || '{}') // Load from localStorage
-  );
-
-  // Save uploadStatus to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('uploadStatus', JSON.stringify(uploadStatus));
-  }, [uploadStatus]);
 
   // Validate file type
   const validateFile = (file: File | null): boolean => {
@@ -46,10 +38,6 @@ const App: React.FC = () => {
         const data = await response.json();
         setResponseMessage(data.message || "File uploaded successfully!");
 
-        // Update upload status for the current date
-        const today = new Date().toISOString().split('T')[0];
-        setUploadStatus((prevStatus) => ({ ...prevStatus, [today]: 'green' }));
-      } else {
         const errorText = await response.text();
         setResponseMessage(`Failed to upload file: ${errorText}`);
       }
@@ -70,15 +58,8 @@ const App: React.FC = () => {
       daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
     }
 
-    // Fill days of the month with status colors
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const statusClass = uploadStatus[dateKey] || 'red'; // Default to red if no upload status
-      daysArray.push(
-        <td key={day} className={`day ${statusClass}`}>
-          {day}
-        </td>
-      );
+     for (let day = 1; day <= daysInMonth; day++) {
+      daysArray.push(<td key={day} className="day">{day}</td>);
     }
 
     const weeks = [];
@@ -198,9 +179,6 @@ const App: React.FC = () => {
         <h3 style={{ textAlign: 'center' }}>Calendar</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <button onClick={prevMonth}>&lt; </button>
-          <span style={{ margin: '0 10px' }}>
-            {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-          </span>
           <button onClick={nextMonth}>&gt; </button>
         </div>
         {renderCalendar(currentDate)}
