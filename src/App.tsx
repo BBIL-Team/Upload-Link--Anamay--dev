@@ -176,8 +176,6 @@ const App: React.FC = () => {
           borderRadius: '8px',
         }}
       >
-
-      <div>
        <h3 style={{ textAlign: 'center' }}>Calendar</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <button onClick={prevMonth}>&lt; </button>
