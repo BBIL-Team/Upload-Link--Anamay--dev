@@ -164,6 +164,19 @@ const App: React.FC = () => {
 
       {responseMessage && <p>{responseMessage}</p>}
 
+      {/* Calendar Component */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '40vh',
+          right: '10vw',
+          width: '25vw',
+          padding: '20px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}
+      >
+
       <div>
        <h3 style={{ textAlign: 'center' }}>Calendar</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
