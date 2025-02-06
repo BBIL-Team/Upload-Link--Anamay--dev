@@ -1,5 +1,3 @@
-Working React app for file upload feature for Tirupati and triveni
-
 import React, { useState } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -21,7 +19,7 @@ const App: React.FC = () => {
     return false;
   };
 
-  // Upload file function
+    // Upload file function
   const uploadFile = async (file: File | null, apiUrl: string) => {
     if (!file) {
       alert("Please select a CSV file to upload.");
@@ -48,8 +46,10 @@ const App: React.FC = () => {
       console.error("Error:", error);
       setResponseMessage("An error occurred while uploading the file.");
     }
+
     setIsModalOpen(true); // Open the modal when response is received
   };
+
 
   // Render calendar without status
   const renderCalendar = (date: Date) => {
@@ -99,18 +99,21 @@ const App: React.FC = () => {
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
+    
+
+
   return (
     <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
       <header style={{ width: '100%' }}>
         <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-        <img
+          <img
             style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
             src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
             alt="Company Logo"
             className="logo"
           />
         </div>
-       <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
           Sign out
         </button>
       </header>
@@ -119,7 +122,7 @@ const App: React.FC = () => {
         <u>Anamay - Dashboard Update Interface</u>
       </h1>
 
-     {/* Stocks File Upload */}
+      {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
@@ -165,7 +168,7 @@ const App: React.FC = () => {
         </p>
       </div>
 
-
+      
       {responseMessage && <p>{responseMessage}</p>}
 
       {/* Calendar Component */}
@@ -191,6 +194,7 @@ const App: React.FC = () => {
         {renderCalendar(currentDate)}
       </div>
 
+
       {/* Modal Popup */}
       {isModalOpen && (
         <div style={modalStyles.overlay}>
@@ -199,16 +203,15 @@ const App: React.FC = () => {
             <p>{responseMessage}</p>
             <div style={modalStyles.buttonContainer}>
               <button style={modalStyles.button} onClick={() => setIsModalOpen(false)}>OK</button>
-              {/* <button style={{ ...modalStyles.button, backgroundColor: 'red' }} onClick={() => setIsModalOpen(false)}>Close</button> */}
+              <button style={{ ...modalStyles.button, backgroundColor: 'red' }} onClick={() => setIsModalOpen(false)}>Close</button>
             </div>
           </div>
         </div>
       )}
-
     </main>
   );
 };
- 
+
 // Modal Styles
 const modalStyles = {
   overlay: {
@@ -246,6 +249,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
