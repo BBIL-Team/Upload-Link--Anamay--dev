@@ -121,7 +121,7 @@ const App: React.FC = () => {
             <p>{responseMessage}</p>
             <div style={modalStyles.buttonContainer}>
               <button style={modalStyles.button} onClick={() => setIsModalOpen(false)}>OK</button>
-              <button style={{ ...modalStyles.button, backgroundColor: 'red' }} onClick={() => setIsModalOpen(false)}>Close</button>
+              {/* <button style={{ ...modalStyles.button, backgroundColor: 'red' }} onClick={() => setIsModalOpen(false)}>Close</button> */}
             </div>
           </div>
         </div>
