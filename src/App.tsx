@@ -1,3 +1,5 @@
+Working React app for file upload feature for Tirupati and triveni
+
 import React, { useState } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -7,8 +9,10 @@ const App: React.FC = () => {
   const [stocksFile, setStocksFile] = useState<File | null>(null);
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  // Validate file type
   const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
       return true;
@@ -17,6 +21,7 @@ const App: React.FC = () => {
     return false;
   };
 
+  // Upload file function
   const uploadFile = async (file: File | null, apiUrl: string) => {
     if (!file) {
       alert("Please select a CSV file to upload.");
@@ -43,22 +48,69 @@ const App: React.FC = () => {
       console.error("Error:", error);
       setResponseMessage("An error occurred while uploading the file.");
     }
-
     setIsModalOpen(true); // Open the modal when response is received
   };
+
+  // Render calendar without status
+  const renderCalendar = (date: Date) => {
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const daysArray = [];
+
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      daysArray.push(<td key={day} className="day">{day}</td>);
+    }
+
+    const weeks = [];
+    let week = [];
+    for (let i = 0; i < daysArray.length; i++) {
+      week.push(daysArray[i]);
+      if (week.length === 7) {
+        weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+        week = [];
+      }
+    }
+    if (week.length > 0) {
+      weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+    }
+
+    return (
+      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}>
+        <thead>
+          <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+          </tr>
+        </thead>
+        <tbody>{weeks}</tbody>
+      </table>
+    );
+  };
+
+  const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
+  const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
   return (
     <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
       <header style={{ width: '100%' }}>
         <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-          <img
+        <img
             style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
             src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
             alt="Company Logo"
             className="logo"
           />
         </div>
-        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+       <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
           Sign out
         </button>
       </header>
@@ -67,7 +119,7 @@ const App: React.FC = () => {
         <u>Anamay - Dashboard Update Interface</u>
       </h1>
 
-      {/* Stocks File Upload */}
+     {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
@@ -113,6 +165,32 @@ const App: React.FC = () => {
         </p>
       </div>
 
+
+      {responseMessage && <p>{responseMessage}</p>}
+
+      {/* Calendar Component */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '40vh',
+          right: '10vw',
+          width: '25vw',
+          padding: '20px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}
+      >
+       <h3 style={{ textAlign: 'center' }}>Calendar</h3>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <button onClick={prevMonth}>&lt; </button>
+          <span style={{ margin: '0 10px' }}>
+            {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          </span>
+          <button onClick={nextMonth}>&gt; </button>
+        </div>
+        {renderCalendar(currentDate)}
+      </div>
+
       {/* Modal Popup */}
       {isModalOpen && (
         <div style={modalStyles.overlay}>
@@ -126,10 +204,11 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
+
     </main>
   );
 };
-
+ 
 // Modal Styles
 const modalStyles = {
   overlay: {
@@ -167,3 +246,6 @@ const modalStyles = {
 };
 
 export default App;
+
+
+
