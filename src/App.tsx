@@ -175,10 +175,10 @@ const App: React.FC = () => {
       <div
         style={{
           position: 'absolute',
-          top: '40vh',
+          top: '35vh',
           right: '10vw',
           width: '25vw',
-          padding: '20px',
+          padding: '0px',
           backgroundColor: '#e6f7ff',
           borderRadius: '8px',
         }}
