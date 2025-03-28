@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
@@ -9,7 +9,38 @@ const App: React.FC = () => {
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [uploadStatus, setUploadStatus] = useState<{ [key: string]: string }>({});
 
+  useEffect(() => {
+    fetchUploadStatus();
+  }, [currentDate]);
+
+  const fetchUploadStatus = async () => {
+    try {
+      const response = await fetch("https://82qww13oi0.execute-api.ap-south-1.amazonaws.com/D2/Anamay_CalenderUpdate_Prod");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("API Response:", data);
+        setUploadStatus(data);
+      } else {
+        console.error("Failed to fetch upload status, status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching upload status:", error);
+    }
+  };
+
+   const getDateColor = (date: string): string => {
+    if (uploadStatus[date]) return uploadStatus[date];
+    const today = new Date();
+    const givenDate = new Date(date);
+    const marchFirst = new Date(2025, 2, 1);
+    if (givenDate >= marchFirst && givenDate <= today) {
+      return "#ffa366";
+    }
+    return "white";
+  };
+  
   // Validate file type
   const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
