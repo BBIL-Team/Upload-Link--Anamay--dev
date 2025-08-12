@@ -17,7 +17,7 @@ const App: React.FC = () => {
 
   const fetchUploadStatus = async () => {
     try {
-      const response = await fetch("https://9a9fn3wa2l.execute-api.ap-south-1.amazonaws.com/D1/deepshikatest");
+      const response = await fetch("https://82qww13oi0.execute-api.ap-south-1.amazonaws.com/D2/Anamay_CalenderUpdate_Prod");
       if (response.ok) {
         const data = await response.json();
         console.log("API Response:", data);
@@ -30,7 +30,7 @@ const App: React.FC = () => {
     }
   };
 
-  const getDateColor = (date: string): string => {
+   const getDateColor = (date: string): string => {
     if (uploadStatus[date]) return uploadStatus[date];
     const today = new Date();
     const givenDate = new Date(date);
@@ -40,7 +40,8 @@ const App: React.FC = () => {
     }
     return "white";
   };
-
+  
+  // Validate file type
   const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
       return true;
@@ -49,6 +50,7 @@ const App: React.FC = () => {
     return false;
   };
 
+    // Upload file function
   const uploadFile = async (file: File | null, apiUrl: string) => {
     if (!file) {
       alert("Please select a CSV file to upload.");
@@ -76,10 +78,12 @@ const App: React.FC = () => {
       setResponseMessage("An error occurred while uploading the file.");
     }
 
-    setIsModalOpen(true);
+    setIsModalOpen(true); // Open the modal when response is received
   };
 
-  const renderCalendar = (date: Date) => {
+
+  // Render calendar without status
+   const renderCalendar = (date: Date) => {
     const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     const daysArray = [];
@@ -113,9 +117,8 @@ const App: React.FC = () => {
     if (week.length > 0) {
       weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
     }
-
     return (
-      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
+      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}>
         <thead>
           <tr>
             <th>Sun</th>
@@ -135,137 +138,116 @@ const App: React.FC = () => {
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
+    
+
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
-        <header style={{ width: '100%' }}>
-          <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-            <img
-              style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
-              src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
-              alt="Company Logo"
-              className="logo"
-            />
-          </div>
-          <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
-            Sign out
-          </button>
-        </header>
+    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+      <header style={{ width: '100%' }}>
+        <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
+          <img
+            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
+            alt="Company Logo"
+            className="logo"
+          />
+        </div>
+        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+          Sign out
+        </button>
+      </header>
 
-        <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
-          <u>Anamay - Dashboard Update Interface</u>
-        </h1>
+      <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
+        <u>Anamay - Dashboard Update Interface</u>
+      </h1>
 
-        {/* Stocks Upload */}
-        <div>
-          <h2>&emsp;&emsp;Anamay Stocks</h2>
-          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
-            &emsp;&emsp;&emsp;&emsp;
-            <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
-            <button onClick={() => {
+      {/* Stocks File Upload */}
+      <div>
+        <h2>&emsp;&emsp;Anamay Stocks</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setStocksFile(e.target.files?.[0] || null)}
+          />
+          <button
+            onClick={() => {
               if (validateFile(stocksFile)) {
-                uploadFile(stocksFile, " https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+                uploadFile(stocksFile, "https://qvls5frwcc.execute-api.ap-south-1.amazonaws.com/V1/UploadLink_Anamay");
               }
-            }}>
-              Submit Stocks File
-            </button>
-          </p>
-        </div>
+            }}
+          >
+            Submit Stocks File
+          </button>
+        </p>
+      </div>
 
-        <hr />
+      <hr />
 
-        {/* Sales Upload */}
-        <div>
-          <h2>&emsp;&emsp;Anamay Sales</h2>
-          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
-            &emsp;&emsp;&emsp;&emsp;
-            <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
-            <button onClick={() => {
+      {/* Sales File Upload */}
+      <div>
+        <h2>&emsp;&emsp;Anamay Sales</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setSalesFile(e.target.files?.[0] || null)}
+          />
+          <button
+            onClick={() => {
               if (validateFile(salesFile)) {
-                uploadFile(salesFile, " https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+                uploadFile(salesFile, "https://azjfhu323b.execute-api.ap-south-1.amazonaws.com/S1/UploadLinkAnamay_Sales");
               }
-            }}>
-              Submit Sales File
-            </button>
-          </p>
-        </div>
+            }}
+          >
+            Submit Sales File
+          </button>
+        </p>
+      </div>
 
-        {responseMessage && <p>{responseMessage}</p>}
+      
+      {responseMessage && <p>{responseMessage}</p>}
 
-        {/* Calendar */}
-        <div style={{
+      {/* Calendar Component */}
+      <div
+        style={{
           position: 'absolute',
-          top: '35vh',
+          top: '40vh',
           right: '10vw',
           width: '25vw',
           padding: '0px',
           backgroundColor: '#e6f7ff',
           borderRadius: '8px',
-        }}>
-          <h3 style={{ textAlign: 'center' }}>Calendar (daily tracker)</h3>
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <button onClick={prevMonth}>&lt; </button>
-            <span style={{ margin: '0 10px' }}>
-              {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-            </span>
-            <button onClick={nextMonth}>&gt; </button>
-          </div>
-          {renderCalendar(currentDate)}
+        }}
+      >
+       <h3 style={{ textAlign: 'center' }}>Calendar (daily tracker)</h3>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <button onClick={prevMonth}>&lt; </button>
+          <span style={{ margin: '0 10px' }}>
+            {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          </span>
+          <button onClick={nextMonth}>&gt; </button>
         </div>
+        {renderCalendar(currentDate)}
+      </div>
 
-        {/* Modal */}
-        {isModalOpen && (
-          <div style={modalStyles.overlay}>
-            <div style={modalStyles.modal}>
-              <h2>Upload Status</h2>
-              <p>{responseMessage}</p>
-              <div style={modalStyles.buttonContainer}>
-                <button style={modalStyles.button} onClick={() => setIsModalOpen(false)}>OK</button>
-              </div>
+
+      {/* Modal Popup */}
+      {isModalOpen && (
+        <div style={modalStyles.overlay}>
+          <div style={modalStyles.modal}>
+            <h2>Upload Status</h2>
+            <p>{responseMessage}</p>
+            <div style={modalStyles.buttonContainer}>
+              <button style={modalStyles.button} onClick={() => setIsModalOpen(false)}>OK</button>
+               {/*<button style={{ ...modalStyles.button, backgroundColor: 'red' }} onClick={() => setIsModalOpen(false)}>Close</button>*/}
             </div>
           </div>
-        )}
-      </main>
-
-      {/* ✅ Simple Footer without importing anything */}
-  <footer style={{
-    width:'100%',
-    height:'3vh',
-    backgroundColor: '#483d8b',
-    textAlign: 'center',
-    fontSize: '14px',
-    color: '#FFFFFF',
-  }}>
-    Thank You
-  </footer>
-   <footer style={{
-    width:'100%',
-    backgroundColor: '#CBC3E3',
-    textAlign: 'left',
-    fontSize: '14px',
-    color: '#FFFFFF',
-  }}>
-   <div style={{
-    display: 'flex',
-    justifyContent: 'space-around',
-    gap: '80px', // space between links
-    flexWrap: 'wrap' // allows wrapping on smaller screens (optional)
-  }}>
-    <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-     <b>Dashboard Link</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Report a Problem</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Call Business Analytics Dept</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Request for a Call Back</b>
-    </a>
-  </div>
-</footer>
-    </div>
+        </div>
+      )}
+    </main>
   );
 };
 
