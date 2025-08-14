@@ -2,35 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
-// Component for efgh@gmail.com user
-const EfghDashboard: React.FC = () => {
-  const { signOut } = useAuthenticator();
-  return (
-    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '90vw', backgroundColor: '#f8f8ff' }}>
-      <header style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-          <img
-            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
-            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
-            alt="Company Logo"
-            className="logo"
-          />
-        </div>
-        <button style={{ marginRight: '20px' }} onClick={signOut}>
-          Sign out
-        </button>
-      </header>
-      <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
-        <u>Welcome efgh@gmail.com - Custom Dashboard</u>
-      </h1>
-      <p>This is a custom dashboard for efgh@gmail.com. Add your specific content here.</p>
-      {/* Add custom content for efgh@gmail.com here */}
-    </main>
-  );
-};
-
 const App: React.FC = () => {
-  const { user, signOut } = useAuthenticator(); // Get the authenticated user
+  const { signOut } = useAuthenticator();
   const [stocksFile, setStocksFile] = useState<File | null>(null);
   const [salesFile, setSalesFile] = useState<File | null>(null);
   const [responseMessage, setResponseMessage] = useState<string>("");
@@ -57,7 +30,7 @@ const App: React.FC = () => {
     }
   };
 
-  const getDateColor = (date: string): string => {
+   const getDateColor = (date: string): string => {
     if (uploadStatus[date]) return uploadStatus[date];
     const today = new Date();
     const givenDate = new Date(date);
@@ -67,7 +40,8 @@ const App: React.FC = () => {
     }
     return "white";
   };
-
+  
+  // Validate file type
   const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
       return true;
@@ -76,6 +50,7 @@ const App: React.FC = () => {
     return false;
   };
 
+    // Upload file function
   const uploadFile = async (file: File | null, apiUrl: string) => {
     if (!file) {
       alert("Please select a CSV file to upload.");
@@ -103,10 +78,12 @@ const App: React.FC = () => {
       setResponseMessage("An error occurred while uploading the file.");
     }
 
-    setIsModalOpen(true);
+    setIsModalOpen(true); // Open the modal when response is received
   };
 
-  const renderCalendar = (date: Date) => {
+
+  // Render calendar without status
+   const renderCalendar = (date: Date) => {
     const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     const daysArray = [];
@@ -161,12 +138,9 @@ const App: React.FC = () => {
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
-  // Conditional rendering based on user email
-  if (user?.attributes?.email === 'efgh@gmail.com') {
-    return <EfghDashboard />;
-  }
+    
 
-  // Default dashboard for abcd@gmail.com or other users
+
   return (
     <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
       <header style={{ width: '100%' }}>
@@ -187,6 +161,7 @@ const App: React.FC = () => {
         <u>Anamay - Dashboard Update Interface</u>
       </h1>
 
+      {/* Stocks File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Stocks</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
@@ -210,6 +185,7 @@ const App: React.FC = () => {
 
       <hr />
 
+      {/* Sales File Upload */}
       <div>
         <h2>&emsp;&emsp;Anamay Sales</h2>
         <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
@@ -231,8 +207,10 @@ const App: React.FC = () => {
         </p>
       </div>
 
+      
       {responseMessage && <p>{responseMessage}</p>}
 
+      {/* Calendar Component */}
       <div
         style={{
           position: 'absolute',
@@ -244,7 +222,7 @@ const App: React.FC = () => {
           borderRadius: '8px',
         }}
       >
-        <h3 style={{ textAlign: 'center' }}>Calendar 2025 (daily tracker)</h3>
+       <h3 style={{ textAlign: 'center' }}>Calendar (daily tracker)</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <button onClick={prevMonth}>&lt; </button>
           <span style={{ margin: '0 10px' }}>
@@ -255,6 +233,8 @@ const App: React.FC = () => {
         {renderCalendar(currentDate)}
       </div>
 
+
+      {/* Modal Popup */}
       {isModalOpen && (
         <div style={modalStyles.overlay}>
           <div style={modalStyles.modal}>
@@ -262,6 +242,7 @@ const App: React.FC = () => {
             <p>{responseMessage}</p>
             <div style={modalStyles.buttonContainer}>
               <button style={modalStyles.button} onClick={() => setIsModalOpen(false)}>OK</button>
+               {/*<button style={{ ...modalStyles.button, backgroundColor: 'red' }} onClick={() => setIsModalOpen(false)}>Close</button>*/}
             </div>
           </div>
         </div>
