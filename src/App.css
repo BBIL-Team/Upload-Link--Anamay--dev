@@ -1,0 +1,19 @@
+header {
+    background-color:#483d8b;
+    display:flex;
+    align-items: center;
+    color: white;
+}
+
+.logo {
+    height: 120px;
+    margin-right: 20px;
+}
+
+.day.green {
+  background-color: lightgreen;
+}
+
+.day.red {
+  background-color: lightcoral;
+}
