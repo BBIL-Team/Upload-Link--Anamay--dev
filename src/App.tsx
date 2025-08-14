@@ -222,7 +222,7 @@ const App: React.FC = () => {
           borderRadius: '8px',
         }}
       >
-       <h3 style={{ textAlign: 'center' }}>Calendar (daily tracker)</h3>
+       <h3 style={{ textAlign: 'center' }}>Calendar 2025 (daily tracker)</h3>
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <button onClick={prevMonth}>&lt; </button>
           <span style={{ margin: '0 10px' }}>
@@ -288,3 +288,4 @@ const modalStyles = {
 };
 
 export default App;
+
