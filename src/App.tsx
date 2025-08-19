@@ -99,7 +99,7 @@ const App: React.FC = () => {
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
           <div className="tooltip-wrapper">
             {day}
-            <span className="tooltip">{dateString}</span>
+            <span className="tooltip">{tooltipText}</span>
           </div>
         </td>
       );
@@ -310,5 +310,6 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
