@@ -93,6 +93,7 @@ const App: React.FC = () => {
       const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
         ? "white"
         : getDateColor(dateString);
+      const tooltipText = color === "#00ff00" ? "Stocks and Sales file uploaded" : dateString;
 
       daysArray.push(
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
@@ -309,4 +310,5 @@ const modalStyles = {
 };
 
 export default App;
+
 
