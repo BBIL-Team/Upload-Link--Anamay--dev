@@ -96,7 +96,10 @@ const App: React.FC = () => {
 
       daysArray.push(
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
-          {day}
+          <div className="tooltip-wrapper">
+            {day}
+            <span className="tooltip">{dateString}</span>
+          </div>
         </td>
       );
     }
@@ -306,3 +309,4 @@ const modalStyles = {
 };
 
 export default App;
+
