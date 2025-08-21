@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [uploadStatus, setUploadStatus] = useState<{ [key: string]: { color: string; missing?: string } }>({});
+  const [uploadStatus, setUploadStatus] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     fetchUploadStatus();
@@ -30,15 +30,15 @@ const App: React.FC = () => {
     }
   };
 
-  const getDateColor = (date: string): { color: string; missing?: string } => {
+  const getDateColor = (date: string): string => {
     if (uploadStatus[date]) return uploadStatus[date];
     const today = new Date();
     const givenDate = new Date(date);
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
-      return { color: "#ffa366" };
+      return "#ffa366"; // Yellow
     }
-    return { color: "white" };
+    return "white";
   };
 
   const validateFile = (file: File | null): boolean => {
@@ -90,25 +90,17 @@ const App: React.FC = () => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      const { color, missing } = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
-        ? { color: "white" }
+      const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
+        ? "white"
         : getDateColor(dateString);
+      const tooltipText = color === "#00ff00" ? "Stocks and Sales file uploaded" : dateString;
 
       daysArray.push(
-        <td
-          key={day}
-          className="day relative"
-          style={{ backgroundColor: color, textAlign: 'center', position: 'relative' }}
-        >
-          {day}
-          {color === "#ffff66" && missing && (
-            <span
-              className="tooltip absolute z-10 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 -top-8 left-1/2 transform -translate-x-1/2"
-              style={{ whiteSpace: 'nowrap' }}
-            >
-              Missing: {missing}
-            </span>
-          )}
+        <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
+          <div className="tooltip-wrapper">
+            {day}
+            <span className="tooltip">{tooltipText}</span>
+          </div>
         </td>
       );
     }
@@ -127,7 +119,7 @@ const App: React.FC = () => {
     }
 
     return (
-      <table className="calendar-table group" style={{ padding: '10px', width: '100%', height: '100%' }}>
+      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
         <thead>
           <tr>
             <th>Sun</th>
@@ -176,7 +168,7 @@ const App: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(stocksFile)) {
-                uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+                uploadFile(stocksFile, " https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
               }
             }}>
               Submit Stocks File
@@ -194,7 +186,7 @@ const App: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(salesFile)) {
-                uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+                uploadFile(salesFile, " https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
               }
             }}>
               Submit Sales File
@@ -239,7 +231,7 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* Footer */}
+      {/* Simple Footer */}
       <footer style={{
         width: '100%',
         height: '3vh',
