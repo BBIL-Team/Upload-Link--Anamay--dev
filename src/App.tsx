@@ -80,62 +80,64 @@ const App: React.FC = () => {
   };
 
   const renderCalendar = (date: Date) => {
-    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    const daysArray = [];
+  const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  const daysArray = [];
 
-    for (let i = 0; i < firstDayOfMonth; i++) {
-      daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
-    }
+  for (let i = 0; i < firstDayOfMonth; i++) {
+    daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
+  }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
-        ? "white"
-        : getDateColor(dateString);
-      
-     // Add title attribute for yellow dates
-    const tooltip = color === "#ffa366" ? "Sales data not updated" : "";
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
+      ? "white"
+      : getDateColor(dateString);
 
-      daysArray.push(
-        <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}
-        title={tooltip}>
-            {day}
-        </td>
-      );
-    }
-
-    const weeks = [];
-    let week = [];
-    for (let i = 0; i < daysArray.length; i++) {
-      week.push(daysArray[i]);
-      if (week.length === 7) {
-        weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
-        week = [];
-      }
-    }
-    if (week.length > 0) {
-      weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
-    }
-
-    return (
-      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
-        <thead>
-          <tr>
-            <th>Sun</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-        </thead>
-        <tbody>{weeks}</tbody>
-      </table>
+    daysArray.push(
+      <td
+        key={day}
+        className={`day ${color === '#ffa366' ? 'yellow-date' : ''}`}
+        style={{ backgroundColor: color, textAlign: 'center', position: 'relative' }}
+      >
+        <span className="day-number">{day}</span>
+        {color === '#ffa366' && (
+          <span className="custom-tooltip">Sales data not updated</span>
+        )}
+      </td>
     );
-  };
+  }
 
+  const weeks = [];
+  let week = [];
+  for (let i = 0; i < daysArray.length; i++) {
+    week.push(daysArray[i]);
+    if (week.length === 7) {
+      weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+      week = [];
+    }
+  }
+  if (week.length > 0) {
+    weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+  }
+
+  return (
+    <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
+      <thead>
+        <tr>
+          <th>Sun</th>
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thu</th>
+          <th>Fri</th>
+          <th>Sat</th>
+        </tr>
+      </thead>
+      <tbody>{weeks}</tbody>
+    </table>
+  );
+};
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
@@ -310,4 +312,5 @@ const modalStyles = {
 };
 
 export default App;
+
 
