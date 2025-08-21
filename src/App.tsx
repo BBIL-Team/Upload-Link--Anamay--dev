@@ -93,14 +93,14 @@ const App: React.FC = () => {
       const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
         ? "white"
         : getDateColor(dateString);
-      const tooltipText = color === "#00ff00" ? "Stocks and Sales file uploaded" : dateString;
+      
+     // Add title attribute for yellow dates
+    const tooltip = color === "#ffa366" ? "Sales data not updated" : "";
 
       daysArray.push(
-        <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
-          <div className="tooltip-wrapper">
+        <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}
+        title={tooltip}>
             {day}
-            <span className="tooltip">{tooltipText}</span>
-          </div>
         </td>
       );
     }
@@ -310,3 +310,4 @@ const modalStyles = {
 };
 
 export default App;
+
