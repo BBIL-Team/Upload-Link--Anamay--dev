@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [uploadStatus, setUploadStatus] = useState<{ [key: string]: string }>({});
+  const [uploadStatus, setUploadStatus] = useState<{ [key: string]: { color: string; missing?: string } }>({});
 
   useEffect(() => {
     fetchUploadStatus();
@@ -30,15 +30,15 @@ const App: React.FC = () => {
     }
   };
 
-  const getDateColor = (date: string): string => {
+  const getDateColor = (date: string): { color: string; missing?: string } => {
     if (uploadStatus[date]) return uploadStatus[date];
     const today = new Date();
     const givenDate = new Date(date);
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
-      return "#ffa366";
+      return { color: "#ffa366" };
     }
-    return "white";
+    return { color: "white" };
   };
 
   const validateFile = (file: File | null): boolean => {
@@ -90,19 +90,25 @@ const App: React.FC = () => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
-        ? "white"
+      const { color, missing } = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
+        ? { color: "white" }
         : getDateColor(dateString);
-     const tooltipText = status && status.salesUpdated === "yes" && status.stocksUpdated === "yes"
-        ? `Sales and Stocks updated - ${status.user}`
-        : dateString;
 
       daysArray.push(
-        <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
-          <div className="tooltip-wrapper">
-            {day}
-            <span className="tooltip">{tooltipText}</span>
-          </div>
+        <td
+          key={day}
+          className="day relative"
+          style={{ backgroundColor: color, textAlign: 'center', position: 'relative' }}
+        >
+          {day}
+          {color === "#ffff66" && missing && (
+            <span
+              className="tooltip absolute z-10 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 -top-8 left-1/2 transform -translate-x-1/2"
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              Missing: {missing}
+            </span>
+          )}
         </td>
       );
     }
@@ -121,7 +127,7 @@ const App: React.FC = () => {
     }
 
     return (
-      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
+      <table className="calendar-table group" style={{ padding: '10px', width: '100%', height: '100%' }}>
         <thead>
           <tr>
             <th>Sun</th>
@@ -170,7 +176,7 @@ const App: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(stocksFile)) {
-                uploadFile(stocksFile, " https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+                uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
               }
             }}>
               Submit Stocks File
@@ -188,7 +194,7 @@ const App: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(salesFile)) {
-                uploadFile(salesFile, " https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+                uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
               }
             }}>
               Submit Sales File
@@ -233,44 +239,44 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* ✅ Simple Footer without importing anything */}
-  <footer style={{
-    width:'100%',
-    height:'3vh',
-    backgroundColor: '#483d8b',
-    textAlign: 'center',
-    fontSize: '14px',
-    color: '#FFFFFF',
-  }}>
-    Thank You
-  </footer>
-   <footer style={{
-    width:'100%',
-    backgroundColor: '#CBC3E3',
-    textAlign: 'left',
-    fontSize: '14px',
-    color: '#FFFFFF',
-  }}>
-   <div style={{
-    display: 'flex',
-    justifyContent: 'space-around',
-    gap: '80px', // space between links
-    flexWrap: 'wrap' // allows wrapping on smaller screens (optional)
-  }}>
-    <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-     <b>Dashboard Link</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Report a Problem</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Call Business Analytics Dept</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Request for a Call Back</b>
-    </a>
-  </div>
-</footer>
+      {/* Footer */}
+      <footer style={{
+        width: '100%',
+        height: '3vh',
+        backgroundColor: '#483d8b',
+        textAlign: 'center',
+        fontSize: '14px',
+        color: '#FFFFFF',
+      }}>
+        Thank You
+      </footer>
+      <footer style={{
+        width: '100%',
+        backgroundColor: '#CBC3E3',
+        textAlign: 'left',
+        fontSize: '14px',
+        color: '#FFFFFF',
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          gap: '80px',
+          flexWrap: 'wrap'
+        }}>
+          <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Dashboard Link</b>
+          </a>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Report a Problem</b>
+          </a>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Call Business Analytics Dept</b>
+          </a>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Request for a Call Back</b>
+          </a>
+        </div>
+      </footer>
     </div>
   );
 };
@@ -312,8 +318,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
-
-
