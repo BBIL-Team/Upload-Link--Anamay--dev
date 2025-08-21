@@ -97,7 +97,7 @@ const App: React.FC = () => {
     daysArray.push(
       <td
         key={day}
-        className={`day ${color === '#ffa366' ? 'yellow-date' : ''}`}
+        className={`day ${color === '#ffff66' ? 'yellow-date' : ''}`}
         style={{ backgroundColor: color, textAlign: 'center', position: 'relative' }}
       >
         <span className="day-number">{day}</span>
@@ -312,5 +312,6 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
