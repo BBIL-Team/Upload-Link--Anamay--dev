@@ -36,7 +36,7 @@ const App: React.FC = () => {
     const givenDate = new Date(date);
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
-      return "#ffa366"; // Yellow
+      return "#ffff66"; // Yellow
     }
     return "white";
   };
@@ -93,7 +93,8 @@ const App: React.FC = () => {
       const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
         ? "white"
         : getDateColor(dateString);
-      const tooltipText = color === "#9fff80" ? "Stocks and Sales file uploaded" : dateString;
+     const tooltipText = color === "#9fff80" ? "Stocks and Sales file uploaded" : 
+                         color === "#ffff66" ? "Sales data not updated" : dateString;
 
       daysArray.push(
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
@@ -310,3 +311,4 @@ const modalStyles = {
 };
 
 export default App;
+
