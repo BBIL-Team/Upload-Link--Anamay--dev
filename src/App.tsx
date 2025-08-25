@@ -36,7 +36,7 @@ const App: React.FC = () => {
     const givenDate = new Date(date);
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
-      return "#ffa366"; // Yellow
+      return "#ffa366";
     }
     return "white";
   };
@@ -80,64 +80,62 @@ const App: React.FC = () => {
   };
 
   const renderCalendar = (date: Date) => {
-  const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-  const daysArray = [];
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const daysArray = [];
 
-  for (let i = 0; i < firstDayOfMonth; i++) {
-    daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
-  }
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-    const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
-      ? "white"
-      : getDateColor(dateString);
-
-    daysArray.push(
-      <td
-        key={day}
-        className={`day ${color === '#ffff66' ? 'yellow-date' : ''}`}
-        style={{ backgroundColor: color, textAlign: 'center', position: 'relative' }}
-      >
-        <span className="day-number">{day}</span>
-        {color === '#ffa366' && (
-          <span className="custom-tooltip">Sales data not updated</span>
-        )}
-      </td>
-    );
-  }
-
-  const weeks = [];
-  let week = [];
-  for (let i = 0; i < daysArray.length; i++) {
-    week.push(daysArray[i]);
-    if (week.length === 7) {
-      weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
-      week = [];
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      daysArray.push(<td key={`empty-${i}`} className="empty"></td>);
     }
-  }
-  if (week.length > 0) {
-    weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
-  }
 
-  return (
-    <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
-      <thead>
-        <tr>
-          <th>Sun</th>
-          <th>Mon</th>
-          <th>Tue</th>
-          <th>Wed</th>
-          <th>Thu</th>
-          <th>Fri</th>
-          <th>Sat</th>
-        </tr>
-      </thead>
-      <tbody>{weeks}</tbody>
-    </table>
-  );
-};
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
+        ? "white"
+        : getDateColor(dateString);
+
+      const isGreen = color === "#9fff80"; // Adjust based on your green color code
+      daysArray.push(
+        <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
+          {day}
+        {isGreen && (
+          <span className="tooltip">All Files Uploaded</span>
+        )}
+        </td>
+      );
+    }
+
+    const weeks = [];
+    let week = [];
+    for (let i = 0; i < daysArray.length; i++) {
+      week.push(daysArray[i]);
+      if (week.length === 7) {
+        weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+        week = [];
+      }
+    }
+    if (week.length > 0) {
+      weeks.push(<tr key={`week-${weeks.length}`}>{week}</tr>);
+    }
+
+    return (
+      <table className="calendar-table" style={{ padding: '10px', width: '100%', height: '100%' }}>
+        <thead>
+          <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+          </tr>
+        </thead>
+        <tbody>{weeks}</tbody>
+      </table>
+    );
+  };
+
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
@@ -233,44 +231,44 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* Simple Footer */}
-      <footer style={{
-        width: '100%',
-        height: '3vh',
-        backgroundColor: '#483d8b',
-        textAlign: 'center',
-        fontSize: '14px',
-        color: '#FFFFFF',
-      }}>
-        Thank You
-      </footer>
-      <footer style={{
-        width: '100%',
-        backgroundColor: '#CBC3E3',
-        textAlign: 'left',
-        fontSize: '14px',
-        color: '#FFFFFF',
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          gap: '80px',
-          flexWrap: 'wrap'
-        }}>
-          <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
-            <b>Dashboard Link</b>
-          </a>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
-            <b>Report a Problem</b>
-          </a>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
-            <b>Call Business Analytics Dept</b>
-          </a>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
-            <b>Request for a Call Back</b>
-          </a>
-        </div>
-      </footer>
+      {/* ✅ Simple Footer without importing anything */}
+  <footer style={{
+    width:'100%',
+    height:'3vh',
+    backgroundColor: '#483d8b',
+    textAlign: 'center',
+    fontSize: '14px',
+    color: '#FFFFFF',
+  }}>
+    Thank You
+  </footer>
+   <footer style={{
+    width:'100%',
+    backgroundColor: '#CBC3E3',
+    textAlign: 'left',
+    fontSize: '14px',
+    color: '#FFFFFF',
+  }}>
+   <div style={{
+    display: 'flex',
+    justifyContent: 'space-around',
+    gap: '80px', // space between links
+    flexWrap: 'wrap' // allows wrapping on smaller screens (optional)
+  }}>
+    <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
+     <b>Dashboard Link</b>
+    </a>
+    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
+      <b>Report a Problem</b>
+    </a>
+    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
+      <b>Call Business Analytics Dept</b>
+    </a>
+    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
+      <b>Request for a Call Back</b>
+    </a>
+  </div>
+</footer>
     </div>
   );
 };
@@ -312,6 +310,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
