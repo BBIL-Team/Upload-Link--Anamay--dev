@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator, AuthUser } from '@aws-amplify/ui-react';
+
+// Extend AuthUser type to include attributes
+interface ExtendedAuthUser extends AuthUser {
+  attributes?: {
+    email?: string;
+  };
+}
 
 const MainDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
@@ -304,11 +311,11 @@ const Unauthorized: React.FC = () => {
 
 const App: React.FC = () => {
   const { user } = useAuthenticator((context) => [context.user]);
-  const email = user?.attributes?.email || '';
+  const email = (user as ExtendedAuthUser)?.attributes?.email || '';
 
   const renderDashboard = () => {
     switch (email) {
-      case 'Deepshika5686@bharatbiotech.com':
+      case 'deepshika5686@bharatbiotech.com':
         return <MainDashboard />;
       case 'efgh@gmail.com':
         return <EfghDashboard />;
