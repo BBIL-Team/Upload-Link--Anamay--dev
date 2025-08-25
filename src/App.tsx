@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
-const App: React.FC = () => {
+const MainDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
   const [stocksFile, setStocksFile] = useState<File | null>(null);
   const [salesFile, setSalesFile] = useState<File | null>(null);
@@ -36,7 +36,7 @@ const App: React.FC = () => {
     const givenDate = new Date(date);
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
-      return "#FFD700"; // Yellow
+      return "#ffff66"; // Yellow
     }
     return "white";
   };
@@ -90,11 +90,10 @@ const App: React.FC = () => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-      const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
-        ? "white"
-        : getDateColor(dateString);
-     const tooltipText = color === "#9fff80" ? "Stocks and Sales file uploaded" : 
-                         color === "#FFD700" ? "Sales data not updated" : dateString;
+      const isSunday = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0;
+      const color = isSunday && uploadStatus[dateString] === "#ffffff" ? "white" : getDateColor(dateString);
+      const tooltipText = color === "#9fff80" ? "Stocks and Sales file uploaded" : 
+                         color === "#ffff66" ? "Sales data not updated" : dateString;
 
       daysArray.push(
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
@@ -141,7 +140,7 @@ const App: React.FC = () => {
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
         <header style={{ width: '100%' }}>
           <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
@@ -169,7 +168,7 @@ const App: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(stocksFile)) {
-                uploadFile(stocksFile, " https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+                uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
               }
             }}>
               Submit Stocks File
@@ -187,7 +186,7 @@ const App: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(salesFile)) {
-                uploadFile(salesFile, " https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+                uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
               }
             }}>
               Submit Sales File
@@ -231,8 +230,97 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+    </div>
+  );
+};
 
-      {/* Simple Footer */}
+const EfghDashboard: React.FC = () => {
+  const { signOut } = useAuthenticator();
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f8f8ff' }}>
+        <header style={{ width: '100%', display: 'flex', alignItems: 'center', padding: '10px' }}>
+          <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
+            <img
+              style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+              src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
+              alt="Company Logo"
+              className="logo"
+            />
+          </div>
+          <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+            Sign out
+          </button>
+        </header>
+
+        <h1 style={{ padding: '10px', textAlign: 'center', width: '100%' }}>
+          <u>Anamay - User Dashboard</u>
+        </h1>
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <h2>Welcome, efgh@gmail.com!</h2>
+          <p>This is your personalized dashboard. Add your content here.</p>
+          <a
+            href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#007BFF', textDecoration: 'none', fontWeight: 'bold' }}
+          >
+            View Analytics Dashboard
+          </a>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+const Unauthorized: React.FC = () => {
+  const { signOut } = useAuthenticator();
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f8f8ff' }}>
+        <header style={{ width: '100%', display: 'flex', alignItems: 'center', padding: '10px' }}>
+          <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
+            <img
+              style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+              src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
+              alt="Company Logo"
+              className="logo"
+            />
+          </div>
+          <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+            Sign out
+          </button>
+        </header>
+        <h1 style={{ padding: '10px', textAlign: 'center', width: '100%' }}>
+          <u>Unauthorized Access</u>
+        </h1>
+        <p style={{ textAlign: 'center', color: '#ff0000' }}>
+          You do not have permission to access this dashboard. Please contact the administrator.
+        </p>
+      </main>
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  const { user } = useAuthenticator((context) => [context.user]);
+  const email = user?.attributes?.email || '';
+
+  const renderDashboard = () => {
+    switch (email) {
+      case 'Deepshika5686@bharatbiotech.com':
+        return <MainDashboard />;
+      case 'efgh@gmail.com':
+        return <EfghDashboard />;
+      default:
+        return <Unauthorized />;
+    }
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {renderDashboard()}
+      {/* Common Footer */}
       <footer style={{
         width: '100%',
         height: '3vh',
@@ -274,7 +362,7 @@ const App: React.FC = () => {
   );
 };
 
-// Modal Styles
+// Modal Styles (used by MainDashboard)
 const modalStyles = {
   overlay: {
     position: 'fixed' as const,
@@ -311,6 +399,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
