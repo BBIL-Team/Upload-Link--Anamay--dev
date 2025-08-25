@@ -36,7 +36,7 @@ const App: React.FC = () => {
     const givenDate = new Date(date);
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
-      return "#ffa366";
+      return "#ffa366"; // Yellow
     }
     return "white";
   };
@@ -93,14 +93,14 @@ const App: React.FC = () => {
       const color = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0
         ? "white"
         : getDateColor(dateString);
+      const tooltipText = color === "#00ff00" ? "Stocks and Sales file uploaded" : dateString;
 
-      const isGreen = color === "#9fff80"; // Adjust based on your green color code
       daysArray.push(
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
-          {day}
-        {isGreen && (
-          <span className="tooltip">All Files Uploaded</span>
-        )}
+          <div className="tooltip-wrapper">
+            {day}
+            <span className="tooltip">{tooltipText}</span>
+          </div>
         </td>
       );
     }
@@ -231,44 +231,44 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* ✅ Simple Footer without importing anything */}
-  <footer style={{
-    width:'100%',
-    height:'3vh',
-    backgroundColor: '#483d8b',
-    textAlign: 'center',
-    fontSize: '14px',
-    color: '#FFFFFF',
-  }}>
-    Thank You
-  </footer>
-   <footer style={{
-    width:'100%',
-    backgroundColor: '#CBC3E3',
-    textAlign: 'left',
-    fontSize: '14px',
-    color: '#FFFFFF',
-  }}>
-   <div style={{
-    display: 'flex',
-    justifyContent: 'space-around',
-    gap: '80px', // space between links
-    flexWrap: 'wrap' // allows wrapping on smaller screens (optional)
-  }}>
-    <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-     <b>Dashboard Link</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Report a Problem</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Call Business Analytics Dept</b>
-    </a>
-    <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000'}}>
-      <b>Request for a Call Back</b>
-    </a>
-  </div>
-</footer>
+      {/* Simple Footer */}
+      <footer style={{
+        width: '100%',
+        height: '3vh',
+        backgroundColor: '#483d8b',
+        textAlign: 'center',
+        fontSize: '14px',
+        color: '#FFFFFF',
+      }}>
+        Thank You
+      </footer>
+      <footer style={{
+        width: '100%',
+        backgroundColor: '#CBC3E3',
+        textAlign: 'left',
+        fontSize: '14px',
+        color: '#FFFFFF',
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          gap: '80px',
+          flexWrap: 'wrap'
+        }}>
+          <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Dashboard Link</b>
+          </a>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Report a Problem</b>
+          </a>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Call Business Analytics Dept</b>
+          </a>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
+            <b>Request for a Call Back</b>
+          </a>
+        </div>
+      </footer>
     </div>
   );
 };
