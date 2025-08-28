@@ -266,7 +266,7 @@ const MainDashboard: React.FC = () => {
 const AnushaDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
   const [PrimarysalesFile, setPrimarysalesFile] = React.useState<File | null>(null);
-  const [salesFile, setSalesFile] = React.useState<File | null>(null);
+  const [SecondarysalesFile, setSecondarysalesFile] = React.useState<File | null>(null);
   const [responseMessage, setResponseMessage] = React.useState<string>("");
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
 
@@ -340,25 +340,25 @@ const AnushaDashboard: React.FC = () => {
                 uploadFile(PrimarysalesFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
               }
             }}>
-              Submit PrimarysalesFile
+              Submit File
             </button>
           </p>
         </div>
 
         <hr />
 
-        {/* Sales Upload */}
+        {/* SecondarySales Upload */}
         <div>
-          <h2>&emsp;&emsp;Anamay Sales</h2>
+          <h2>&emsp;&emsp;Secondary Sales</h2>
           <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
             &emsp;&emsp;&emsp;&emsp;
-            <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
+            <input type="file" accept=".csv" onChange={(e) => setSecondarysalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
-              if (validateFile(salesFile)) {
-                uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+              if (validateFile(SecondarysalesFile)) {
+                uploadFile(SecondarysalesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
               }
             }}>
-              Submit Sales File
+              Submit File
             </button>
           </p>
         </div>
@@ -555,6 +555,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
