@@ -5,6 +5,7 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 // Custom type for user object
 interface CustomUser {
   username?: string;
+  userId?: string;
   attributes?: {
     [key: string]: string | undefined;
     email?: string;
@@ -23,6 +24,10 @@ interface CustomUser {
         sub?: string;
       };
     };
+  };
+  signInDetails?: {
+    loginId?: string;
+    authFlowType?: string;
   };
 }
 
@@ -339,7 +344,9 @@ const App: React.FC = () => {
   // Extract email from all possible fields
   const attributes = typedUser?.attributes || {};
   const payload = typedUser?.signInUserSession?.idToken?.payload || {};
+  const signInDetails = typedUser?.signInDetails || {};
   const possibleEmailFields = [
+    signInDetails.loginId,
     attributes.email,
     attributes['custom:email'],
     attributes.preferred_username,
