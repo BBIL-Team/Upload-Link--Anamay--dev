@@ -322,7 +322,7 @@ const App: React.FC = () => {
 
   const renderDashboard = () => {
     switch (email) {
-      case 'abcd@gmail.com':
+      case 'deepshika5686@bharatbiotech.com':
         return <MainDashboard />;
       case 'efgh@gmail.com':
         return <EfghDashboard />;
@@ -413,3 +413,4 @@ const modalStyles = {
 };
 
 export default App;
+
