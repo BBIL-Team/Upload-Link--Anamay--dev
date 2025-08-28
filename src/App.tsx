@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { Auth } from 'aws-amplify';
 
 // Custom type for user object
 interface CustomUser {
   username?: string;
   attributes?: {
+    [key: string]: string | undefined;
     email?: string;
     'custom:email'?: string;
     preferred_username?: string;
     email_verified?: string;
     sub?: string;
+    identities?: string;
   };
   signInUserSession?: {
     idToken?: {
       payload?: {
+        [key: string]: string | undefined;
         email?: string;
         'custom:email'?: string;
+        sub?: string;
       };
     };
   };
@@ -25,14 +28,14 @@ interface CustomUser {
 
 const MainDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
-  const [stocksFile, setStocksFile] = useState<File | null>(null);
-  const [salesFile, setSalesFile] = useState<File | null>(null);
-  const [responseMessage, setResponseMessage] = useState<string>("");
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [uploadStatus, setUploadStatus] = useState<{ [key: string]: string }>({});
+  const [stocksFile, setStocksFile] = React.useState<File | null>(null);
+  const [salesFile, setSalesFile] = React.useState<File | null>(null);
+  const [responseMessage, setResponseMessage] = React.useState<string>("");
+  const [currentDate, setCurrentDate] = React.useState<Date>(new Date());
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const [uploadStatus, setUploadStatus] = React.useState<{ [key: string]: string }>({});
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchUploadStatus();
   }, [currentDate]);
 
@@ -294,7 +297,7 @@ const EfghDashboard: React.FC = () => {
   );
 };
 
-const Unauthorized: React.FC = () => {
+const Unauthorized: React.FC<{ email: string; userDebug: string }> = ({ email, userDebug }) => {
   const { signOut } = useAuthenticator();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -318,6 +321,12 @@ const Unauthorized: React.FC = () => {
         <p style={{ textAlign: 'center', color: '#ff0000' }}>
           You do not have permission to access this dashboard. Please contact the administrator.
         </p>
+        <p style={{ textAlign: 'center', color: '#000000' }}>
+          Detected email: {email || 'No email detected'}
+        </p>
+        <p style={{ textAlign: 'center', color: '#000000', fontSize: '12px', maxWidth: '80vw', wordBreak: 'break-all' }}>
+          Debug info (share with support): {userDebug}
+        </p>
       </main>
     </div>
   );
@@ -325,36 +334,46 @@ const Unauthorized: React.FC = () => {
 
 const App: React.FC = () => {
   const { user } = useAuthenticator((context) => [context.user]);
-  const [email, setEmail] = useState<string>('');
+  const typedUser = user as CustomUser;
 
-  useEffect(() => {
-    const fetchUserEmail = async () => {
-      try {
-        const currentUser = await Auth.currentAuthenticatedUser();
-        console.log("Auth.currentAuthenticatedUser:", currentUser); // Debug log
-        const possibleEmail = (
-          currentUser?.attributes?.email ||
-          currentUser?.attributes?.['custom:email'] ||
-          currentUser?.signInUserSession?.idToken?.payload?.email ||
-          currentUser?.signInUserSession?.idToken?.payload?.['custom:email'] ||
-          currentUser?.attributes?.preferred_username ||
-          currentUser?.username ||
-          currentUser?.attributes?.sub ||
-          ''
-        ).toLowerCase();
-        console.log("Extracted email from Auth.currentAuthenticatedUser:", possibleEmail); // Debug log
-        setEmail(possibleEmail);
-      } catch (error) {
-        console.error("Error fetching user email:", error);
-        setEmail('');
+  // Extract email from all possible fields
+  const attributes = typedUser?.attributes || {};
+  const payload = typedUser?.signInUserSession?.idToken?.payload || {};
+  const possibleEmailFields = [
+    attributes.email,
+    attributes['custom:email'],
+    attributes.preferred_username,
+    attributes.email_verified,
+    attributes.sub,
+    payload.email,
+    payload['custom:email'],
+    payload.sub,
+    typedUser?.username,
+  ];
+  let possibleEmail = '';
+  for (const field of possibleEmailFields) {
+    if (field && typeof field === 'string' && field.includes('@')) {
+      possibleEmail = field;
+      break;
+    }
+  }
+  // Check identities for federated login
+  if (attributes.identities) {
+    try {
+      const identities = JSON.parse(attributes.identities);
+      if (Array.isArray(identities) && identities[0]?.userId?.includes('@')) {
+        possibleEmail = identities[0].userId;
       }
-    };
+    } catch (e) {
+      console.error("Error parsing identities:", e);
+    }
+  }
+  const email = possibleEmail.toLowerCase();
 
-    fetchUserEmail();
-  }, []);
-
-  console.log("User object from useAuthenticator:", user); // Debug log
-  console.log("Final email used:", email); // Debug log
+  // Debug logs
+  console.log("User object:", JSON.stringify(typedUser, null, 2));
+  console.log("Possible email fields:", possibleEmailFields);
+  console.log("Extracted email:", email);
 
   const renderDashboard = () => {
     switch (email) {
@@ -363,7 +382,7 @@ const App: React.FC = () => {
       case 'efgh@gmail.com':
         return <EfghDashboard />;
       default:
-        return <Unauthorized />;
+        return <Unauthorized email={email} userDebug={JSON.stringify(typedUser, null, 2)} />;
     }
   };
 
