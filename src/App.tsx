@@ -265,8 +265,12 @@ const MainDashboard: React.FC = () => {
 
 const AnushaDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
-const [stocksFile, setStocksFile] = React.useState<File | null>(null);
-const validateFile = (file: File | null): boolean => {
+  const [stocksFile, setStocksFile] = React.useState<File | null>(null);
+  const [salesFile, setSalesFile] = React.useState<File | null>(null);
+  const [responseMessage, setResponseMessage] = React.useState<string>("");
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+
+  const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
       return true;
     }
@@ -300,6 +304,10 @@ const validateFile = (file: File | null): boolean => {
       console.error("Error:", error);
       setResponseMessage("An error occurred while uploading the file.");
     }
+
+    setIsModalOpen(true);
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f8f8ff' }}>
@@ -318,9 +326,23 @@ const validateFile = (file: File | null): boolean => {
         </header>
 
         <h1 style={{ padding: '10px', textAlign: 'center', width: '100%' }}>
-          <u>Anamay-Dashboard Update Interface</u>
+          <u>Anamay - Dashboard Update Interface</u>
         </h1>
-{/* Stocks Upload */}
+
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <h2>Welcome, anusha5931@bharatbiotech.com!</h2>
+          <p>This is your personalized dashboard. Add your content here.</p>
+          <a
+            href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#007BFF', textDecoration: 'none', fontWeight: 'bold' }}
+          >
+            View Analytics Dashboard
+          </a>
+        </div>
+
+        {/* Stocks Upload */}
         <div>
           <h2>&emsp;&emsp;Anamay Stocks</h2>
           <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
@@ -337,6 +359,37 @@ const validateFile = (file: File | null): boolean => {
         </div>
 
         <hr />
+
+        {/* Sales Upload */}
+        <div>
+          <h2>&emsp;&emsp;Anamay Sales</h2>
+          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+            &emsp;&emsp;&emsp;&emsp;
+            <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
+            <button onClick={() => {
+              if (validateFile(salesFile)) {
+                uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+              }
+            }}>
+              Submit Sales File
+            </button>
+          </p>
+        </div>
+
+        {responseMessage && <p>{responseMessage}</p>}
+
+        {/* Modal */}
+        {isModalOpen && (
+          <div style={modalStyles.overlay}>
+            <div style={modalStyles.modal}>
+              <h2>Upload Status</h2>
+              <p>{responseMessage}</p>
+              <div style={modalStyles.buttonContainer}>
+                <button style={modalStyles.button} onClick={() => setIsModalOpen(false)}>OK</button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
@@ -516,3 +569,4 @@ const modalStyles = {
 };
 
 export default App;
+
