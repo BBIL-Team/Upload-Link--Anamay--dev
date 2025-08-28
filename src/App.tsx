@@ -263,7 +263,7 @@ const MainDashboard: React.FC = () => {
   );
 };
 
-const EfghDashboard: React.FC = () => {
+const AnushaDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -286,7 +286,7 @@ const EfghDashboard: React.FC = () => {
           <u>Anamay - User Dashboard</u>
         </h1>
         <div style={{ textAlign: 'center', padding: '20px' }}>
-          <h2>Welcome, efgh@gmail.com!</h2>
+          <h2>Welcome, anusha5931@bharatbiotech.com!</h2>
           <p>This is your personalized dashboard. Add your content here.</p>
           <a
             href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc"
@@ -386,8 +386,8 @@ const App: React.FC = () => {
     switch (email) {
       case 'deepshika5686@bharatbiotech.com':
         return <MainDashboard />;
-      case 'efgh@gmail.com':
-        return <EfghDashboard />;
+      case 'anusha5931@bharatbiotech.com':
+        return <AnushaDashboard />;
       default:
         return <Unauthorized email={email} userDebug={JSON.stringify(typedUser, null, 2)} />;
     }
@@ -475,3 +475,4 @@ const modalStyles = {
 };
 
 export default App;
+
