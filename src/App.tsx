@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Auth } from 'aws-amplify';
 
 // Custom type for user object
 interface CustomUser {
@@ -9,6 +10,8 @@ interface CustomUser {
     email?: string;
     'custom:email'?: string;
     preferred_username?: string;
+    email_verified?: string;
+    sub?: string;
   };
   signInUserSession?: {
     idToken?: {
@@ -322,17 +325,36 @@ const Unauthorized: React.FC = () => {
 
 const App: React.FC = () => {
   const { user } = useAuthenticator((context) => [context.user]);
-  console.log("User object:", user); // Debug log to inspect user object
-  const email = (
-    (user as CustomUser)?.attributes?.email ||
-    (user as CustomUser)?.attributes?.['custom:email'] ||
-    (user as CustomUser)?.signInUserSession?.idToken?.payload?.email ||
-    (user as CustomUser)?.signInUserSession?.idToken?.payload?.['custom:email'] ||
-    (user as CustomUser)?.username ||
-    ''
-  ).toLowerCase(); // Normalize to lowercase to handle case sensitivity
+  const [email, setEmail] = useState<string>('');
 
-  console.log("Extracted email:", email); // Debug log to verify email
+  useEffect(() => {
+    const fetchUserEmail = async () => {
+      try {
+        const currentUser = await Auth.currentAuthenticatedUser();
+        console.log("Auth.currentAuthenticatedUser:", currentUser); // Debug log
+        const possibleEmail = (
+          currentUser?.attributes?.email ||
+          currentUser?.attributes?.['custom:email'] ||
+          currentUser?.signInUserSession?.idToken?.payload?.email ||
+          currentUser?.signInUserSession?.idToken?.payload?.['custom:email'] ||
+          currentUser?.attributes?.preferred_username ||
+          currentUser?.username ||
+          currentUser?.attributes?.sub ||
+          ''
+        ).toLowerCase();
+        console.log("Extracted email from Auth.currentAuthenticatedUser:", possibleEmail); // Debug log
+        setEmail(possibleEmail);
+      } catch (error) {
+        console.error("Error fetching user email:", error);
+        setEmail('');
+      }
+    };
+
+    fetchUserEmail();
+  }, []);
+
+  console.log("User object from useAuthenticator:", user); // Debug log
+  console.log("Final email used:", email); // Debug log
 
   const renderDashboard = () => {
     switch (email) {
