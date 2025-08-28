@@ -265,7 +265,7 @@ const MainDashboard: React.FC = () => {
 
 const AnushaDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
-  const [stocksFile, setStocksFile] = React.useState<File | null>(null);
+  const [PrimarysalesFile, setPrimarysalesFile] = React.useState<File | null>(null);
   const [salesFile, setSalesFile] = React.useState<File | null>(null);
   const [responseMessage, setResponseMessage] = React.useState<string>("");
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
@@ -329,31 +329,18 @@ const AnushaDashboard: React.FC = () => {
           <u>Anamay - Dashboard Update Interface</u>
         </h1>
 
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <h2>Welcome, anusha5931@bharatbiotech.com!</h2>
-          <p>This is your personalized dashboard. Add your content here.</p>
-          <a
-            href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#007BFF', textDecoration: 'none', fontWeight: 'bold' }}
-          >
-            View Analytics Dashboard
-          </a>
-        </div>
-
-        {/* Stocks Upload */}
+        {/* Primary Sales Upload */}
         <div>
-          <h2>&emsp;&emsp;Anamay Stocks</h2>
+          <h2>&emsp;&emsp;Primary Sales</h2>
           <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
             &emsp;&emsp;&emsp;&emsp;
-            <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
+            <input type="file" accept=".csv" onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
-              if (validateFile(stocksFile)) {
-                uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+              if (validateFile(PrimarysalesFile)) {
+                uploadFile(PrimarysalesFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
               }
             }}>
-              Submit Stocks File
+              Submit PrimarysalesFile
             </button>
           </p>
         </div>
@@ -568,5 +555,6 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
