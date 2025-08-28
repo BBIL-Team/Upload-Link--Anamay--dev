@@ -337,7 +337,7 @@ const AnushaDashboard: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(PrimarysalesFile)) {
-                uploadFile(PrimarysalesFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+                uploadFile(PrimarysalesFile, " https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
               }
             }}>
               Submit File
@@ -555,6 +555,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
