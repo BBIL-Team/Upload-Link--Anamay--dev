@@ -4,13 +4,17 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 
 // Custom type for user object
 interface CustomUser {
+  username?: string;
   attributes?: {
     email?: string;
+    'custom:email'?: string;
+    preferred_username?: string;
   };
   signInUserSession?: {
     idToken?: {
       payload?: {
         email?: string;
+        'custom:email'?: string;
       };
     };
   };
@@ -318,7 +322,17 @@ const Unauthorized: React.FC = () => {
 
 const App: React.FC = () => {
   const { user } = useAuthenticator((context) => [context.user]);
-  const email = (user as CustomUser)?.attributes?.email || (user as CustomUser)?.signInUserSession?.idToken?.payload?.email || '';
+  console.log("User object:", user); // Debug log to inspect user object
+  const email = (
+    (user as CustomUser)?.attributes?.email ||
+    (user as CustomUser)?.attributes?.['custom:email'] ||
+    (user as CustomUser)?.signInUserSession?.idToken?.payload?.email ||
+    (user as CustomUser)?.signInUserSession?.idToken?.payload?.['custom:email'] ||
+    (user as CustomUser)?.username ||
+    ''
+  ).toLowerCase(); // Normalize to lowercase to handle case sensitivity
+
+  console.log("Extracted email:", email); // Debug log to verify email
 
   const renderDashboard = () => {
     switch (email) {
@@ -413,4 +427,3 @@ const modalStyles = {
 };
 
 export default App;
-
