@@ -566,7 +566,7 @@ const modalStyles = {
     cursor: 'pointer',
   },
 };
-};
 
 export default App;
+
 
