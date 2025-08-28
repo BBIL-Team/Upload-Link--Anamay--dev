@@ -122,7 +122,7 @@ const MainDashboard: React.FC = () => {
       const isSunday = new Date(date.getFullYear(), date.getMonth(), day).getDay() === 0;
       const color = isSunday && uploadStatus[dateString] === "#ffffff" ? "white" : getDateColor(dateString);
       const tooltipText = color === "#9fff80" ? "Stocks and Sales file uploaded" : 
-                         color === "#ffff66" ? "Sales data not updated" : dateString;
+                         color === "#FFD700" ? "Sales data not updated" : dateString;
 
       daysArray.push(
         <td key={day} className="day" style={{ backgroundColor: color, textAlign: 'center' }}>
@@ -475,4 +475,5 @@ const modalStyles = {
 };
 
 export default App;
+
 
