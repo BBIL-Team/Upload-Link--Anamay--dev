@@ -185,7 +185,7 @@ const MainDashboard: React.FC = () => {
           </button>
         </header>
 
-        <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
+        <h1 style={{ padding: '50px', textAlign: 'center', width: '100vw' }}>
           <u>Anamay - Dashboard Update Interface</u>
         </h1>
 
@@ -555,6 +555,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
