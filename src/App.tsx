@@ -38,6 +38,7 @@ const MainDashboard: React.FC = () => {
   const [superStockistFile, setSuperStockistFile] = React.useState<File | null>(null);
   const [responseMessage, setResponseMessage] = React.useState<string>("");
   const [currentDate, setCurrentDate] = React.useState<Date>(new Date());
+  const [currentYear, setCurrentYear] = React.useState<number>(new Date().getFullYear());
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [uploadStatus, setUploadStatus] = React.useState<{ [key: string]: string }>({});
 
@@ -614,6 +615,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
