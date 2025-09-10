@@ -294,7 +294,12 @@ const MainDashboard: React.FC = () => {
           backgroundColor: '#e6f7ff',
           borderRadius: '8px',
         }}>
-          <h3 style={{ textAlign: 'center' }}> Calendar (Montly Tracker) ({currentDate.getFullYear()})</h3>
+        <h3 style={{ textAlign: 'center' }}>Calendar (Monthly Tracker)</h3>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <button onClick={prevYear}>&lt;</button>
+            <span style={{ margin: '0 10px' }}>{currentYear}</span>
+            <button onClick={nextYear}>&gt;</button>
+          </div>
           {renderYearlyCalendar()}
         </div>
 
@@ -607,4 +612,5 @@ const modalStyles = {
 };
 
 export default App;
+
 
