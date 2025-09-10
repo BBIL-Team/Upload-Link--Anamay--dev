@@ -193,8 +193,8 @@ const MainDashboard: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100vw', backgroundColor: '#f8f8ff' }}>
-        <header style={{ width: '100%', padding: '10px' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+        <header style={{ width: '100%' }}>
           <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
             <img
               style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
@@ -208,95 +208,102 @@ const MainDashboard: React.FC = () => {
           </button>
         </header>
 
-        <h1 style={{ padding: '20px', textAlign: 'center', width: '100%' }}>
+        <h1 style={{ padding: '50px', textAlign: 'center', width: '100vw' }}>
           <u>Anamay - Dashboard Update Interface</u>
         </h1>
 
-        {/* Upper Segment: Stocks, Sales, and Daily Tracker Calendar */}
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '20px', minHeight: '50vh' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '50vw' }}>
-            {/* Stocks Upload */}
-            <div>
-              <h2 style={{ marginLeft: '20px' }}>Anamay Stocks</h2>
-              <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '100%', height: '70px' }}>
-                <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
-                <button onClick={() => {
-                  if (validateFile(stocksFile)) {
-                    uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
-                  }
-                }}>
-                  Submit Stocks File
-                </button>
-              </p>
-            </div>
-
-            <hr style={{ margin: '20px 0' }} />
-
-            {/* Sales Upload */}
-            <div>
-              <h2 style={{ marginLeft: '20px' }}>Anamay Sales</h2>
-              <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '100%', height: '70px' }}>
-                <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
-                <button onClick={() => {
-                  if (validateFile(salesFile)) {
-                    uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
-                  }
-                }}>
-                  Submit Sales File
-                </button>
-              </p>
-            </div>
-
-            {responseMessage && <p style={{ marginLeft: '20px' }}>{responseMessage}</p>}
-          </div>
-
-          {/* Daily Tracker Calendar */}
-          <div style={{ width: '25vw', padding: '10px', backgroundColor: '#e6f7ff', borderRadius: '8px' }}>
-            <h3 style={{ textAlign: 'center' }}>Calendar (Daily Tracker)</h3>
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <button onClick={prevMonth}>&lt;</button>
-              <span style={{ margin: '0 10px' }}>
-                {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-              </span>
-              <button onClick={nextMonth}>&gt;</button>
-            </div>
-            {renderCalendar(currentDate)}
-          </div>
+        {/* Stocks Upload */}
+        <div>
+          <h2>&emsp;&emsp;Anamay Stocks</h2>
+          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
+            &emsp;&emsp;&emsp;&emsp;
+            <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
+            <button onClick={() => {
+              if (validateFile(stocksFile)) {
+                uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+              }
+            }}>
+              Submit Stocks File
+            </button>
+          </p>
         </div>
 
-        <hr style={{ margin: '20px 0', width: '100%' }} />
+        <hr />
 
-        {/* Lower Segment: SuperStockist and Yearly Calendar */}
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '20px', minHeight: '30vh' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '50vw' }}>
-            {/* SuperStockist Stock Positions Upload */}
-            <div>
-              <h2 style={{ marginLeft: '20px' }}>SuperStockist Stock Positions</h2>
-              <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '100%', height: '70px' }}>
-                <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
-                <button onClick={() => {
-                  if (validateFile(superStockistFile)) {
-                    uploadFile(superStockistFile, "https://placeholder-api.execute-api.ap-south-1.amazonaws.com/S1/SuperStockist_Stock_UploadLink_Dev");
-                  }
-                }}>
-                  Submit SuperStockist File
-                </button>
-              </p>
-            </div>
+        {/* Sales Upload */}
+        <div>
+          <h2>&emsp;&emsp;Anamay Sales</h2>
+          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+            &emsp;&emsp;&emsp;&emsp;
+            <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
+            <button onClick={() => {
+              if (validateFile(salesFile)) {
+                uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+              }
+            }}>
+              Submit Sales File
+            </button>
+          </p>
+        </div>
 
-            {responseMessage && <p style={{ marginLeft: '20px' }}>{responseMessage}</p>}
+        <hr />
+
+        {/* SuperStockist Stock Positions Upload */}
+        <div>
+          <h2>&emsp;&emsp;SuperStockist Stock Positions</h2>
+          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+            &emsp;&emsp;&emsp;&emsp;
+            <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
+            <button onClick={() => {
+              if (validateFile(superStockistFile)) {
+                uploadFile(superStockistFile, "https://placeholder-api.execute-api.ap-south-1.amazonaws.com/S1/SuperStockist_Stock_UploadLink_Dev");
+              }
+            }}>
+              Submit SuperStockist File
+            </button>
+          </p>
+        </div>
+
+        {responseMessage && <p>{responseMessage}</p>}
+
+        {/* Daily Tracker Calendar */}
+        <div style={{
+          position: 'absolute',
+          top: '35vh',
+          right: '10vw',
+          width: '25vw',
+          padding: '0px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}>
+          <h3 style={{ textAlign: 'center' }}>Calendar (Daily Tracker)</h3>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <button onClick={prevMonth}>&lt;</button>
+            <span style={{ margin: '0 10px' }}>
+              {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+            </span>
+            <button onClick={nextMonth}>&gt;</button>
           </div>
+          {renderCalendar(currentDate)}
+        </div>
 
-          {/* Yearly Calendar */}
-          <div style={{ width: '25vw', padding: '10px', backgroundColor: '#e6f7ff', borderRadius: '8px' }}>
-            <h3 style={{ textAlign: 'center' }}>Calendar (Monthly Tracker)</h3>
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <button onClick={prevYear}>&lt;</button>
-              <span style={{ margin: '0 10px' }}>{currentYear}</span>
-              <button onClick={nextYear}>&gt;</button>
-            </div>
-            {renderYearlyCalendar()}
+        {/* Monthly Tracker Calendar */}
+        <div style={{
+          position: 'absolute',
+          top: '75vh',
+          right: '10vw',
+          width: '25vw',
+          padding: '0px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}>
+          <h3 style={{ textAlign: 'center' }}>Calendar (Monthly Tracker)</h3>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <button onClick={prevYear}>&lt;</button>
+            <span style={{ margin: '0 10px' }}>{currentYear}</span>
+            <button onClick={nextYear}>&gt;</button>
           </div>
+          {renderYearlyCalendar()}
         </div>
 
         {/* Modal */}
@@ -549,10 +556,9 @@ const App: React.FC = () => {
       }}>
         <div style={{
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'space-around',
           gap: '80px',
-          flexWrap: 'wrap',
-          padding: '10px 20px'
+          flexWrap: 'wrap'
         }}>
           <a href="https://ap-south-1.quicksight.aws.amazon.com/sn/dashboards/61e1a019-4de1-4e09-bdde-61c3a0ca77bc" target="_blank" rel="noopener noreferrer" style={{ color: '#000000' }}>
             <b>Dashboard Link</b>
