@@ -169,6 +169,77 @@ const MainDashboard: React.FC = () => {
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
 
+  const renderYearlyCalendar = (year: number) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const monthGrids = months.map((month, index) => {
+      const monthDate = new Date(year, index, 1);
+      const daysInMonth = new Date(year, index + 1, 0).getDate();
+      const firstDayOfMonth = monthDate.getDay();
+      const daysArray = [];
+
+      for (let i = 0; i < firstDayOfMonth; i++) {
+        daysArray.push(<td key={`empty-${month}-${i}`} className="empty"></td>);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateString = `${year}-${(index + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        const isSunday = new Date(year, index, day).getDay() === 0;
+        const color = isSunday && uploadStatus[dateString] === "#ffffff" ? "white" : getDateColor(dateString);
+
+        daysArray.push(
+          <td key={`${month}-${day}`} className="day" style={{ backgroundColor: color, textAlign: 'center', fontSize: '10px' }}>
+            {day}
+          </td>
+        );
+      }
+
+      const weeks = [];
+      let week = [];
+      for (let i = 0; i < daysArray.length; i++) {
+        week.push(daysArray[i]);
+        if (week.length === 7) {
+          weeks.push(<tr key={`week-${month}-${weeks.length}`}>{week}</tr>);
+          week = [];
+        }
+      }
+      if (week.length > 0) {
+        weeks.push(<tr key={`week-${month}-${weeks.length}`}>{week}</tr>);
+      }
+
+      return (
+        <div key={month} style={{ margin: '10px', width: '150px' }}>
+          <h4 style={{ textAlign: 'center', marginBottom: '5px' }}>{month}</h4>
+          <table className="calendar-table" style={{ padding: '5px', width: '100%' }}>
+            <thead>
+              <tr>
+                <th style={{ fontSize: '10px' }}>S</th>
+                <th style={{ fontSize: '10px' }}>M</th>
+                <th style={{ fontSize: '10px' }}>T</th>
+                <th style={{ fontSize: '10px' }}>W</th>
+                <th style={{ fontSize: '10px' }}>T</th>
+                <th style={{ fontSize: '10px' }}>F</th>
+                <th style={{ fontSize: '10px' }}>S</th>
+              </tr>
+            </thead>
+            <tbody>{weeks}</tbody>
+          </table>
+        </div>
+      );
+    });
+
+    return (
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {monthGrids}
+      </div>
+    );
+  };
+
+  const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
+  const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
+  
   return (
     //<div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
@@ -263,6 +334,20 @@ const MainDashboard: React.FC = () => {
           {renderCalendar(currentDate)}
         </div>
 
+        {/* Yearly Calendar */}
+      <div style={{
+        position: 'absolute',
+        top: '75vh',
+        right: '10vw',
+        width: '25vw',
+        padding: '0px',
+        backgroundColor: '#e6f7ff',
+        borderRadius: '8px',
+      }}>
+        <h3 style={{ textAlign: 'center' }}>Yearly Calendar ({currentDate.getFullYear()})</h3>
+        {renderYearlyCalendar(currentDate.getFullYear())}
+      </div>
+        
         {/* Modal */}
         {isModalOpen && (
           <div style={modalStyles.overlay}>
@@ -572,6 +657,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
