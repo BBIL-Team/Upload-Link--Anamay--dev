@@ -35,6 +35,7 @@ const MainDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
   const [stocksFile, setStocksFile] = React.useState<File | null>(null);
   const [salesFile, setSalesFile] = React.useState<File | null>(null);
+  const [superStockistFile, setSuperStockistFile] = React.useState<File | null>(null);
   const [responseMessage, setResponseMessage] = React.useState<string>("");
   const [currentDate, setCurrentDate] = React.useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
@@ -222,6 +223,22 @@ const MainDashboard: React.FC = () => {
             </button>
           </p>
         </div>
+
+        {/* SuperStockist Stock Positions Upload */}
+      <div>
+        <h2>&emsp;&emsp;SuperStockist Stock Positions</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
+          <button onClick={() => {
+            if (validateFile(superStockistFile)) {
+              uploadFile(superStockistFile, "https://placeholder-api.execute-api.ap-south-1.amazonaws.com/S1/SuperStockist_Stock_UploadLink_Dev");
+            }
+          }}>
+            Submit SuperStockist File
+          </button>
+        </p>
+      </div>
 
         {responseMessage && <p>{responseMessage}</p>}
 
@@ -555,6 +572,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
