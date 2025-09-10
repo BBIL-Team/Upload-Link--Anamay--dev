@@ -166,13 +166,13 @@ const MainDashboard: React.FC = () => {
     );
   };
 
-  const renderYearlyCalendar = (year: number) => {
+  const renderYearlyCalendar = () => {
     const months = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    const monthList = months.map((month, index) => (
+    const monthList = months.map((month) => (
       <div key={month} style={{ margin: '10px', width: '150px', textAlign: 'center' }}>
         <h4 style={{ marginBottom: '5px' }}>{month}</h4>
       </div>
@@ -295,7 +295,7 @@ const MainDashboard: React.FC = () => {
           borderRadius: '8px',
         }}>
           <h3 style={{ textAlign: 'center' }}>Yearly Calendar ({currentDate.getFullYear()})</h3>
-          {renderYearlyCalendar(currentDate.getFullYear())}
+          {renderYearlyCalendar()}
         </div>
 
         {/* Modal */}
