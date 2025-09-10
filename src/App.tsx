@@ -166,9 +166,6 @@ const MainDashboard: React.FC = () => {
     );
   };
 
-  const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
-  const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
-
   const renderYearlyCalendar = (year: number) => {
     const months = [
       'January', 'February', 'March', 'April', 'May', 'June',
@@ -190,9 +187,9 @@ const MainDashboard: React.FC = () => {
 
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
-  
+
   return (
-    //<div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
         <header style={{ width: '100%' }}>
           <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
@@ -246,25 +243,27 @@ const MainDashboard: React.FC = () => {
           </p>
         </div>
 
+        <hr />
+
         {/* SuperStockist Stock Positions Upload */}
-      <div>
-        <h2>&emsp;&emsp;SuperStockist Stock Positions</h2>
-        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
-          &emsp;&emsp;&emsp;&emsp;
-          <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
-          <button onClick={() => {
-            if (validateFile(superStockistFile)) {
-              uploadFile(superStockistFile, "https://placeholder-api.execute-api.ap-south-1.amazonaws.com/S1/SuperStockist_Stock_UploadLink_Dev");
-            }
-          }}>
-            Submit SuperStockist File
-          </button>
-        </p>
-      </div>
+        <div>
+          <h2>&emsp;&emsp;SuperStockist Stock Positions</h2>
+          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+            &emsp;&emsp;&emsp;&emsp;
+            <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
+            <button onClick={() => {
+              if (validateFile(superStockistFile)) {
+                uploadFile(superStockistFile, "https://placeholder-api.execute-api.ap-south-1.amazonaws.com/S1/SuperStockist_Stock_UploadLink_Dev");
+              }
+            }}>
+              Submit SuperStockist File
+            </button>
+          </p>
+        </div>
 
         {responseMessage && <p>{responseMessage}</p>}
 
-        {/* Calendar */}
+        {/* Daily Tracker Calendar */}
         <div style={{
           position: 'absolute',
           top: '35vh',
@@ -274,31 +273,31 @@ const MainDashboard: React.FC = () => {
           backgroundColor: '#e6f7ff',
           borderRadius: '8px',
         }}>
-          <h3 style={{ textAlign: 'center' }}>Calendar (daily tracker)</h3>
+          <h3 style={{ textAlign: 'center' }}>Calendar (Daily Tracker)</h3>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <button onClick={prevMonth}>&lt; </button>
+            <button onClick={prevMonth}>&lt;</button>
             <span style={{ margin: '0 10px' }}>
               {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
             </span>
-            <button onClick={nextMonth}>&gt; </button>
+            <button onClick={nextMonth}>&gt;</button>
           </div>
           {renderCalendar(currentDate)}
         </div>
 
         {/* Yearly Calendar */}
-      <div style={{
-        position: 'absolute',
-        top: '75vh',
-        right: '10vw',
-        width: '25vw',
-        padding: '0px',
-        backgroundColor: '#e6f7ff',
-        borderRadius: '8px',
-      }}>
-        <h3 style={{ textAlign: 'center' }}>Yearly Calendar ({currentDate.getFullYear()})</h3>
-        {renderYearlyCalendar(currentDate.getFullYear())}
-      </div>
-        
+        <div style={{
+          position: 'absolute',
+          top: '75vh',
+          right: '10vw',
+          width: '25vw',
+          padding: '0px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}>
+          <h3 style={{ textAlign: 'center' }}>Yearly Calendar ({currentDate.getFullYear()})</h3>
+          {renderYearlyCalendar(currentDate.getFullYear())}
+        </div>
+
         {/* Modal */}
         {isModalOpen && (
           <div style={modalStyles.overlay}>
@@ -312,7 +311,7 @@ const MainDashboard: React.FC = () => {
           </div>
         )}
       </main>
-    //</div>
+    </div>
   );
 };
 
@@ -390,7 +389,7 @@ const AnushaDashboard: React.FC = () => {
             <input type="file" accept=".csv" onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)} />
             <button onClick={() => {
               if (validateFile(PrimarysalesFile)) {
-                uploadFile(PrimarysalesFile, " https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
+                uploadFile(PrimarysalesFile, "https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
               }
             }}>
               Submit File
@@ -400,7 +399,7 @@ const AnushaDashboard: React.FC = () => {
 
         <hr />
 
-        {/* SecondarySales Upload */}
+        {/* Secondary Sales Upload */}
         <div>
           <h2>&emsp;&emsp;Secondary Sales</h2>
           <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
@@ -571,7 +570,7 @@ const App: React.FC = () => {
   );
 };
 
-// Modal Styles (used by MainDashboard)
+// Modal Styles (used by MainDashboard and AnushaDashboard)
 const modalStyles = {
   overlay: {
     position: 'fixed' as const,
@@ -608,14 +607,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
