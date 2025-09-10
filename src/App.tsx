@@ -174,7 +174,7 @@ const MainDashboard: React.FC = () => {
     ];
 
     const monthList = months.map((month) => (
-      <div key={month} style={{ margin: '10px', width: '150px', textAlign: 'center' }}>
+      <div key={month} style={{ margin: '10px', width: '75px', textAlign: 'center' }}>
         <h4 style={{ marginBottom: '5px' }}>{month}</h4>
       </div>
     ));
@@ -190,7 +190,7 @@ const MainDashboard: React.FC = () => {
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
   const nextYear = () => setCurrentYear(currentYear + 1);
   const prevYear = () => setCurrentYear(currentYear - 1);
-  
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
@@ -287,7 +287,7 @@ const MainDashboard: React.FC = () => {
           {renderCalendar(currentDate)}
         </div>
 
-        {/* Yearly Calendar */}
+        {/* Monthly Tracker Calendar */}
         <div style={{
           position: 'absolute',
           top: '75vh',
@@ -297,7 +297,7 @@ const MainDashboard: React.FC = () => {
           backgroundColor: '#e6f7ff',
           borderRadius: '8px',
         }}>
-        <h3 style={{ textAlign: 'center' }}>Calendar (Monthly Tracker)</h3>
+          <h3 style={{ textAlign: 'center' }}>Calendar (Monthly Tracker)</h3>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <button onClick={prevYear}>&lt;</button>
             <span style={{ margin: '0 10px' }}>{currentYear}</span>
@@ -615,7 +615,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
-
