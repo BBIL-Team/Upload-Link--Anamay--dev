@@ -174,65 +174,16 @@ const MainDashboard: React.FC = () => {
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
-    const monthGrids = months.map((month, index) => {
-      const monthDate = new Date(year, index, 1);
-      const daysInMonth = new Date(year, index + 1, 0).getDate();
-      const firstDayOfMonth = monthDate.getDay();
-      const daysArray = [];
 
-      for (let i = 0; i < firstDayOfMonth; i++) {
-        daysArray.push(<td key={`empty-${month}-${i}`} className="empty"></td>);
-      }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dateString = `${year}-${(index + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-        const isSunday = new Date(year, index, day).getDay() === 0;
-        const color = isSunday && uploadStatus[dateString] === "#ffffff" ? "white" : getDateColor(dateString);
-
-        daysArray.push(
-          <td key={`${month}-${day}`} className="day" style={{ backgroundColor: color, textAlign: 'center', fontSize: '10px' }}>
-            {day}
-          </td>
-        );
-      }
-
-      const weeks = [];
-      let week = [];
-      for (let i = 0; i < daysArray.length; i++) {
-        week.push(daysArray[i]);
-        if (week.length === 7) {
-          weeks.push(<tr key={`week-${month}-${weeks.length}`}>{week}</tr>);
-          week = [];
-        }
-      }
-      if (week.length > 0) {
-        weeks.push(<tr key={`week-${month}-${weeks.length}`}>{week}</tr>);
-      }
-
-      return (
-        <div key={month} style={{ margin: '10px', width: '150px' }}>
-          <h4 style={{ textAlign: 'center', marginBottom: '5px' }}>{month}</h4>
-          <table className="calendar-table" style={{ padding: '5px', width: '100%' }}>
-            <thead>
-              <tr>
-                <th style={{ fontSize: '10px' }}>S</th>
-                <th style={{ fontSize: '10px' }}>M</th>
-                <th style={{ fontSize: '10px' }}>T</th>
-                <th style={{ fontSize: '10px' }}>W</th>
-                <th style={{ fontSize: '10px' }}>T</th>
-                <th style={{ fontSize: '10px' }}>F</th>
-                <th style={{ fontSize: '10px' }}>S</th>
-              </tr>
-            </thead>
-            <tbody>{weeks}</tbody>
-          </table>
-        </div>
-      );
-    });
+    const monthList = months.map((month, index) => (
+      <div key={month} style={{ margin: '10px', width: '150px', textAlign: 'center' }}>
+        <h4 style={{ marginBottom: '5px' }}>{month}</h4>
+      </div>
+    ));
 
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {monthGrids}
+        {monthList}
       </div>
     );
   };
@@ -657,6 +608,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
