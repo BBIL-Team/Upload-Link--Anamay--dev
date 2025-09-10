@@ -187,7 +187,9 @@ const MainDashboard: React.FC = () => {
 
   const nextMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)));
   const prevMonth = () => setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)));
-
+  const nextYear = () => setCurrentYear(currentYear + 1);
+  const prevYear = () => setCurrentYear(currentYear - 1);
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
@@ -612,5 +614,6 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
