@@ -413,7 +413,7 @@ const AnushaDashboard: React.FC = () => {
         </div>
 
         {responseMessage && <p>{responseMessage}</p>
-
+        }
         {/* Modal */}
         {isModalOpen && (
           <div style={modalStyles.overlay}>
@@ -604,3 +604,4 @@ const modalStyles = {
 };
 
 export default App;
+
