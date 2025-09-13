@@ -100,7 +100,7 @@ const MainDashboard: React.FC = () => {
         setResponseMessage(data.message || "File uploaded successfully!");
       } else {
         const errorText = await response.text();
-        setResponseMessage(`Failed to upload file: ${ErrorText}`);
+        setResponseMessage(`Failed to upload file: ${errorText}`);
       }
     } catch (error) {
       console.error("Error:", error);
