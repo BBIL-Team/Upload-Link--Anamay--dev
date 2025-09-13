@@ -173,15 +173,23 @@ const MainDashboard: React.FC = () => {
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    const monthList = months.map((month) => (
-      <div key={month} style={{ margin: '10px', width: '75px', textAlign: 'center' }}>
-        <h4 style={{ marginBottom: '5px' }}>{month}</h4>
-      </div>
-    ));
+    const monthRows = [];
+    for (let i = 0; i < months.length; i += 3) {
+      const rowMonths = months.slice(i, i + 3).map((month) => (
+        <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center' }}>
+          <h4 style={{ marginBottom: '5px' }}>{month}</h4>
+        </div>
+      ));
+      monthRows.push(
+        <div key={`row-${i / 3}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+          {rowMonths}
+        </div>
+      );
+    }
 
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {monthList}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {monthRows}
       </div>
     );
   };
@@ -299,7 +307,7 @@ const MainDashboard: React.FC = () => {
           </div>
         </div>
 
-        {responseMessage && <p>{responseMessage}</p>}
+        {responseMessage && <p>{responseMessage}</p>
 
         {/* Modal */}
         {isModalOpen && (
@@ -418,7 +426,7 @@ const AnushaDashboard: React.FC = () => {
           </p>
         </div>
 
-        {responseMessage && <p>{responseMessage}</p>}
+        {responseMessage && <p>{responseMessage}</p>
 
         {/* Modal */}
         {isModalOpen && (
