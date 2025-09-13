@@ -308,6 +308,7 @@ const MainDashboard: React.FC = () => {
         </div>
 
         {responseMessage && <p>{responseMessage}</p>
+        }
 
         {/* Modal */}
         {isModalOpen && (
@@ -427,6 +428,7 @@ const AnushaDashboard: React.FC = () => {
         </div>
 
         {responseMessage && <p>{responseMessage}</p>
+        }
 
         {/* Modal */}
         {isModalOpen && (
@@ -618,3 +620,4 @@ const modalStyles = {
 };
 
 export default App;
+
