@@ -216,15 +216,15 @@ const MainDashboard: React.FC = () => {
           </button>
         </header>
 
-        <h1 style={{ padding: '50px', textAlign: 'center', width: '100vw' }}>
+        <h1 style={{ textAlign: 'center', width: '100vw' }}>
           <u>Anamay - Dashboard Update Interface</u>
         </h1>
 
         {/* Stocks, Sales, and Monthly Calendar Box */}
         <div style={{
-          width: '80vw',
+          width: '90vw',
           padding: '20px',
-          backgroundColor: '#e6f7ff',
+          backgroundColor: '#f0f0f0',
           borderRadius: '8px',
           marginBottom: '20px',
           display: 'flex',
@@ -258,7 +258,7 @@ const MainDashboard: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ width: '40%', padding: '0px' }}>
+          <div style={{ width: '40%', padding: '0px',backgroundColor:'rgb(230,247,255)' }}>
             <h3 style={{ textAlign: 'center' }}>Calendar (Daily Tracker)</h3>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <button onClick={prevMonth}>&lt;</button>
@@ -273,9 +273,9 @@ const MainDashboard: React.FC = () => {
 
         {/* SuperStockist and Yearly Calendar Box */}
         <div style={{
-          width: '80vw',
+          width: '90vw',
           padding: '20px',
-          backgroundColor: '#e6f7ff',
+          backgroundColor: '#f0f0f0',
           borderRadius: '8px',
           display: 'flex',
           flexDirection: 'row',
@@ -296,7 +296,7 @@ const MainDashboard: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ width: '40%', padding: '0px' }}>
+          <div style={{ width: '40%', padding: '0px',backgroundColor: 'rgb(230,247,255)' }}>
             <h3 style={{ textAlign: 'center' }}>Calendar (Yearly Tracker)</h3>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <button onClick={prevYear}>&lt;</button>
@@ -618,3 +618,4 @@ const modalStyles = {
 };
 
 export default App;
+
