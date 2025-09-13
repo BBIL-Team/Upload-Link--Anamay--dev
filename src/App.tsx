@@ -282,7 +282,7 @@ const MainDashboard: React.FC = () => {
           justifyContent: 'space-between',
           alignItems: 'flex-start',
         }}>
-          <div style={{ width: '50%' }}>
+          <div style={{ width: '50%',paddingTop:'70px' }}>
             <h2>SuperStockist Stock Positions</h2>
             <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
               <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
@@ -618,4 +618,5 @@ const modalStyles = {
 };
 
 export default App;
+
 
