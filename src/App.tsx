@@ -100,7 +100,7 @@ const MainDashboard: React.FC = () => {
         setResponseMessage(data.message || "File uploaded successfully!");
       } else {
         const errorText = await response.text();
-        setResponseMessage(`Failed to upload file: ${errorText}`);
+        setResponseMessage(`Failed to upload file: ${ErrorText}`);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -212,46 +212,46 @@ const MainDashboard: React.FC = () => {
           <u>Anamay - Dashboard Update Interface</u>
         </h1>
 
-        {/* Upper Part: Stocks, Sales, and Monthly Calendar */}
-        <div style={{ display: 'flex', flex: 1, width: '100%' }}>
-          <div style={{ flex: 1, padding: '20px' }}>
-            {/* Stocks Upload */}
-            <div>
-              <h2>Anamay Stocks</h2>
-              <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
-                <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
-                <button onClick={() => {
-                  if (validateFile(stocksFile)) {
-                    uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
-                  }
-                }}>
-                  Submit Stocks File
-                </button>
-              </p>
+        {/* Stocks, Sales, and Monthly Calendar Box */}
+        <div style={{
+          width: '80vw',
+          padding: '20px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        }}>
+          <div style={{ width: '50%' }}>
+            <h2>Anamay Stocks</h2>
+            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', marginBottom: '20px' }}>
+              <input type="file" accept=".csv" onChange={(e) => setStocksFile(e.target.files?.[0] || null)} />
+              <button onClick={() => {
+                if (validateFile(stocksFile)) {
+                  uploadFile(stocksFile, "https://ty1d56bgkb.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Stocks_UploadLink_Dev");
+                }
+              }}>
+                Submit Stocks File
+              </button>
             </div>
 
-            <hr />
-
-            {/* Sales Upload */}
-            <div>
-              <h2>Anamay Sales</h2>
-              <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
-                <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
-                <button onClick={() => {
-                  if (validateFile(salesFile)) {
-                    uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
-                  }
-                }}>
-                  Submit Sales File
-                </button>
-              </p>
+            <h2>Anamay Sales</h2>
+            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+              <input type="file" accept=".csv" onChange={(e) => setSalesFile(e.target.files?.[0] || null)} />
+              <button onClick={() => {
+                if (validateFile(salesFile)) {
+                  uploadFile(salesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+                }
+              }}>
+                Submit Sales File
+              </button>
             </div>
-
-            {responseMessage && <p>{responseMessage}</p>}
           </div>
 
-          <div style={{ flex: 1, padding: '20px', backgroundColor: '#e6f7ff', borderRadius: '8px' }}>
-            <h3 style={{ textAlign: 'center' }}>Calendar (Monthly Tracker)</h3>
+          <div style={{ width: '40%', padding: '0px' }}>
+            <h3 style={{ textAlign: 'center' }}>Calendar (Daily Tracker)</h3>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <button onClick={prevMonth}>&lt;</button>
               <span style={{ margin: '0 10px' }}>
@@ -263,28 +263,32 @@ const MainDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Lower Part: SuperStockist and Yearly Calendar */}
-        <div style={{ display: 'flex', flex: 1, width: '100%', marginTop: '20px' }}>
-          <div style={{ flex: 1, padding: '20px' }}>
-            {/* SuperStockist Stock Positions Upload */}
-            <div>
-              <h2>SuperStockist Stock Positions</h2>
-              <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
-                <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
-                <button onClick={() => {
-                  if (validateFile(superStockistFile)) {
-                    uploadFile(superStockistFile, "https://gmj1qijcmi.execute-api.ap-south-1.amazonaws.com/S1/Anamay_SuperStockist_StockPositions_UploadLink_Dev");
-                  }
-                }}>
-                  Submit SuperStockist File
-                </button>
-              </p>
+        {/* SuperStockist and Yearly Calendar Box */}
+        <div style={{
+          width: '80vw',
+          padding: '20px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        }}>
+          <div style={{ width: '50%' }}>
+            <h2>SuperStockist Stock Positions</h2>
+            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+              <input type="file" accept=".csv" onChange={(e) => setSuperStockistFile(e.target.files?.[0] || null)} />
+              <button onClick={() => {
+                if (validateFile(superStockistFile)) {
+                  uploadFile(superStockistFile, "https://gmj1qijcmi.execute-api.ap-south-1.amazonaws.com/S1/Anamay_SuperStockist_StockPositions_UploadLink_Dev");
+                }
+              }}>
+                Submit SuperStockist File
+              </button>
             </div>
-
-            {responseMessage && <p>{responseMessage}</p>}
           </div>
 
-          <div style={{ flex: 1, padding: '20px', backgroundColor: '#e6f7ff', borderRadius: '8px' }}>
+          <div style={{ width: '40%', padding: '0px' }}>
             <h3 style={{ textAlign: 'center' }}>Calendar (Yearly Tracker)</h3>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <button onClick={prevYear}>&lt;</button>
@@ -294,6 +298,8 @@ const MainDashboard: React.FC = () => {
             {renderYearlyCalendar()}
           </div>
         </div>
+
+        {responseMessage && <p>{responseMessage}</p>}
 
         {/* Modal */}
         {isModalOpen && (
@@ -412,8 +418,8 @@ const AnushaDashboard: React.FC = () => {
           </p>
         </div>
 
-        {responseMessage && <p>{responseMessage}</p>
-        }
+        {responseMessage && <p>{responseMessage}</p>}
+
         {/* Modal */}
         {isModalOpen && (
           <div style={modalStyles.overlay}>
@@ -604,4 +610,3 @@ const modalStyles = {
 };
 
 export default App;
-
