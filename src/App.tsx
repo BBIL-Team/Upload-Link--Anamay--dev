@@ -174,14 +174,14 @@ const MainDashboard: React.FC = () => {
     ];
 
     const monthRows = [];
-    for (let i = 0; i < months.length; i += 3) {
-      const rowMonths = months.slice(i, i + 3).map((month) => (
+    for (let i = 0; i < months.length; i += 4) {
+      const rowMonths = months.slice(i, i + 4).map((month) => (
         <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center' }}>
           <h4 style={{ marginBottom: '5px' }}>{month}</h4>
         </div>
       ));
       monthRows.push(
-        <div key={`row-${i / 3}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+        <div key={`row-${i / 4}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
           {rowMonths}
         </div>
       );
@@ -307,8 +307,7 @@ const MainDashboard: React.FC = () => {
           </div>
         </div>
 
-        {responseMessage && <p>{responseMessage}</p>
-        }
+        {responseMessage && <p>{responseMessage}</p>}
 
         {/* Modal */}
         {isModalOpen && (
@@ -427,8 +426,7 @@ const AnushaDashboard: React.FC = () => {
           </p>
         </div>
 
-        {responseMessage && <p>{responseMessage}</p>
-        }
+        {responseMessage && <p>{responseMessage}</p>}
 
         {/* Modal */}
         {isModalOpen && (
@@ -620,4 +618,3 @@ const modalStyles = {
 };
 
 export default App;
-
