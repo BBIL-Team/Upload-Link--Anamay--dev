@@ -46,7 +46,7 @@ header {
   max-height: 100px;
   flex-direction: row;
   align-items: center;
-  background-color: #008080;
+  background-color: #483d8b;
   color: white;
   max-width: 100%;
   padding: 4px;
@@ -142,4 +142,5 @@ h1, h2, h3 {
 p {
   margin: 5px 0; /* Adds margin above and below paragraphs */
 }
+
 
