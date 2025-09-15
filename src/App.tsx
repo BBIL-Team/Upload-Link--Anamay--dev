@@ -190,26 +190,34 @@ const MainDashboard: React.FC = () => {
   };
 
   const renderYearlyCalendar = () => {
-    const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
 
-    const monthRows = [];
-    for (let i = 0; i < months.length; i += 4) {
-      const rowMonths = months.slice(i, i + 4).map((month) => (
-        const color = getMonthColor(month, currentYear);
-        <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center' }}>
+  const monthRows = [];
+  for (let i = 0; i < months.length; i += 4) {
+    const rowMonths = months.slice(i, i + 4).map((month) => {
+      const color = getMonthColor(month, currentYear);
+      return (
+        <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center', backgroundColor: color }}>
           <h4 style={{ marginBottom: '5px' }}>{month}</h4>
         </div>
-      ));
-      monthRows.push(
-        <div key={`row-${i / 4}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-          {rowMonths}
-        </div>
       );
-    }
+    });
+    monthRows.push(
+      <div key={`row-${i / 4}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+        {rowMonths}
+      </div>
+    );
+  }
 
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {monthRows}
+    </div>
+  );
+};
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {monthRows}
@@ -642,6 +650,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
