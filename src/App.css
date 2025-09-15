@@ -42,12 +42,21 @@ html, body {
 }
 
 header {
-  background-color: #483d8b;
-  display: flex;
+ display: flex;
+  max-height: 100px;
+  flex-direction: row;
   align-items: center;
+  background-color: #008080;
   color: white;
-  margin: 0 20px; /* Adds horizontal margin to the header content */
-  padding: 10px 0; /* Adds vertical padding for better spacing */
+  max-width: 100%;
+  padding: 4px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  margin: 0; 
 }
 
 .logo {
@@ -133,3 +142,4 @@ h1, h2, h3 {
 p {
   margin: 5px 0; /* Adds margin above and below paragraphs */
 }
+
