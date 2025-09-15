@@ -12,6 +12,8 @@ html, body {
   padding-top: 470px;
   box-sizing: border-box;
   overflow-x: hidden;
+  margin: 0 auto; /* Centers the content horizontally */
+  margin-top: 120px; /* Adds space below the fixed header */
 }
 
 .app-header {
@@ -29,34 +31,38 @@ html, body {
   width: 100%;
   z-index: 1000;
   box-sizing: border-box;
+  margin: 0; /* No margin for fixed header to avoid displacement */
 }
 
 .header-logo {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  margin-right: 20px; /* Maintains existing margin for logo */
 }
 
-
-
 header {
-    background-color:#483d8b;
-    display:flex;
-    align-items: center;
-    color: white;
+  background-color: #483d8b;
+  display: flex;
+  align-items: center;
+  color: white;
+  margin: 0 20px; /* Adds horizontal margin to the header content */
+  padding: 10px 0; /* Adds vertical padding for better spacing */
 }
 
 .logo {
-    height: 120px;
-    margin-right: 20px;
+  height: 120px;
+  margin-right: 20px; /* Maintains existing margin */
 }
 
 .day.green {
   background-color: lightgreen;
+  margin: 2px; /* Adds small margin around green days */
 }
 
 .day.red {
   background-color: lightcoral;
+  margin: 2px; /* Adds small margin around red days */
 }
 
 /* Tooltip styles */
@@ -65,6 +71,7 @@ header {
   display: inline-block;
   width: 100%;
   height: 100%;
+  margin: 2px; /* Adds margin around tooltip wrapper */
 }
 
 .tooltip {
@@ -102,4 +109,27 @@ header {
   border-color: #333 transparent transparent transparent;
 }
 
+/* Additional styles for better spacing in the app */
+main {
+  margin: 20px; /* Adds margin around the main content area */
+}
 
+div[style*="flex-direction: column"] {
+  margin: 10px 0; /* Adds vertical margin to flex column containers */
+}
+
+div[style*="flex-direction: row"] {
+  margin: 0 10px; /* Adds horizontal margin to flex row containers */
+}
+
+button {
+  margin: 0 5px; /* Adds margin between buttons */
+}
+
+h1, h2, h3 {
+  margin: 10px 0; /* Adds margin above and below headings */
+}
+
+p {
+  margin: 5px 0; /* Adds margin above and below paragraphs */
+}
