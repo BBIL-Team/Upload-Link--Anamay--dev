@@ -528,7 +528,7 @@ const App: React.FC = () => {
   const renderDashboard = () => {
     switch (email) {
       case 'deepshika5686@bharatbiotech.com':
-      case 'Manika5170@bharatbiotech.com':
+      case 'manika5170@bharatbiotech.com':
         return <MainDashboard />;
       case 'anusha5931@bharatbiotech.com':
         return <AnushaDashboard />;
@@ -619,6 +619,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
