@@ -355,7 +355,8 @@ const MainDashboard: React.FC = () => {
       </main>
     </div>
   );
-};
+
+
 
 const AnushaDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
@@ -650,6 +651,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
