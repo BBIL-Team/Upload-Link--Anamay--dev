@@ -201,7 +201,7 @@ const MainDashboard: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', backgroundColor: '#f8f8ff' , paddingTop: '100px' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', backgroundColor: '#f8f8ff' , paddingTop: '200px' }}>
         <header style={{ width: '100%' }}>
           <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
             <img
@@ -619,6 +619,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
