@@ -41,8 +41,7 @@ const MainDashboard: React.FC = () => {
   const [currentYear, setCurrentYear] = React.useState<number>(new Date().getFullYear());
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [uploadStatus, setUploadStatus] = React.useState<{ [key: string]: string }>({});
-  const [yearlyUploadStatus, setYearlyUploadStatus] = React.useState<{ [key: string]: string }>({});
-  
+
   React.useEffect(() => {
     fetchUploadStatus();
   }, [currentDate]);
@@ -62,21 +61,6 @@ const MainDashboard: React.FC = () => {
     }
   };
 
-  const fetchYearlyUploadStatus = async () => {
-    try {
-      const response = await fetch("https://evxnr8qxgh.execute-api.ap-south-1.amazonaws.com/T1/Anamay_SuperStockist_Stocks_Tracker");
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Yearly API Response:", data);
-        setYearlyUploadStatus(data);
-      } else {
-        console.error("Failed to fetch yearly upload status, status:", response.status);
-      }
-    } catch (error) {
-      console.error("Error fetching yearly upload status:", error);
-    }
-  };
-
   const getDateColor = (date: string): string => {
     if (uploadStatus[date]) return uploadStatus[date];
     const today = new Date();
@@ -86,12 +70,6 @@ const MainDashboard: React.FC = () => {
       return "#ffff66"; // Yellow
     }
     return "white";
-  };
-
-  const getMonthColor = (month: string, year: number): string => {
-    const monthKey = `${year}-${new Date(`${month} 1, ${year}`).getMonth() + 1}`; // e.g., "2025-1" for January
-    if (yearlyUploadStatus[monthKey]) return yearlyUploadStatus[monthKey];
-    return "white"; // Default color if no status
   };
 
   const validateFile = (file: File | null): boolean => {
@@ -190,34 +168,25 @@ const MainDashboard: React.FC = () => {
   };
 
   const renderYearlyCalendar = () => {
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
 
-  const monthRows = [];
-  for (let i = 0; i < months.length; i += 4) {
-    const rowMonths = months.slice(i, i + 4).map((month) => {
-      const color = getMonthColor(month, currentYear);
-      return (
-        <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center', backgroundColor: color }}>
+    const monthRows = [];
+    for (let i = 0; i < months.length; i += 4) {
+      const rowMonths = months.slice(i, i + 4).map((month) => (
+        <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center' }}>
           <h4 style={{ marginBottom: '5px' }}>{month}</h4>
         </div>
+      ));
+      monthRows.push(
+        <div key={`row-${i / 4}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+          {rowMonths}
+        </div>
       );
-    });
-    monthRows.push(
-      <div key={`row-${i / 4}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-        {rowMonths}
-      </div>
-    );
-  }
+    }
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {monthRows}
-    </div>
-  );
-};
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {monthRows}
@@ -355,8 +324,7 @@ const MainDashboard: React.FC = () => {
       </main>
     </div>
   );
-
-
+};
 
 const AnushaDashboard: React.FC = () => {
   const { signOut } = useAuthenticator();
@@ -613,7 +581,6 @@ const App: React.FC = () => {
     </div>
   );
 };
-
 
 // Modal Styles (used by MainDashboard and AnushaDashboard)
 const modalStyles = {
