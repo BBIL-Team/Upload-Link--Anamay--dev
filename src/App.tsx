@@ -61,6 +61,21 @@ const MainDashboard: React.FC = () => {
     }
   };
 
+  const fetchYearlyUploadStatus = async () => {
+    try {
+      const response = await fetch(" https://evxnr8qxgh.execute-api.ap-south-1.amazonaws.com/T1/Anamay_SuperStockist_Stocks_Tracker");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Yearly API Response:", data);
+        setYearlyUploadStatus(data);
+      } else {
+        console.error("Failed to fetch yearly upload status, status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching yearly upload status:", error);
+    }
+  };
+
   const getDateColor = (date: string): string => {
     if (uploadStatus[date]) return uploadStatus[date];
     const today = new Date();
@@ -68,6 +83,18 @@ const MainDashboard: React.FC = () => {
     const marchFirst = new Date(2025, 2, 1);
     if (givenDate >= marchFirst && givenDate <= today) {
       return "#ffff66"; // Yellow
+    }
+    return "white";
+  };
+
+  const getMonthColor = (year: number, month: number): string => {
+    const monthString = `${year}-${(month + 1).toString().padStart(2, '0')}`;
+    if (yearlyUploadStatus[monthString]) return yearlyUploadStatus[monthString];
+    const today = new Date();
+    const marchFirst = new Date(2025, 2, 1);
+    const givenMonth = new Date(year, month, 1);
+    if (givenMonth >= marchFirst && givenMonth <= today) {
+      return "#ffff66"; // Yellow for past months since March
     }
     return "white";
   };
@@ -173,13 +200,31 @@ const MainDashboard: React.FC = () => {
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    const monthRows = [];
+   const monthRows = [];
     for (let i = 0; i < months.length; i += 4) {
-      const rowMonths = months.slice(i, i + 4).map((month) => (
-        <div key={month} style={{ margin: '10px', width: '100px', textAlign: 'center' }}>
-          <h4 style={{ marginBottom: '5px' }}>{month}</h4>
-        </div>
-      ));
+      const rowMonths = months.slice(i, i + 4).map((month, index) => {
+        const monthIndex = i + index;
+        const monthColor = getMonthColor(currentYear, monthIndex);
+        return (
+          <div
+            key={month}
+            style={{
+              margin: '10px',
+              width: '100px',
+              height: '100px',
+              textAlign: 'center',
+              backgroundColor: monthColor,
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {month}
+          </div>
+        );
+      });
       monthRows.push(
         <div key={`row-${i / 4}`} style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
           {rowMonths}
@@ -619,3 +664,4 @@ const modalStyles = {
 };
 
 export default App;
+
