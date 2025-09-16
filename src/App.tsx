@@ -614,6 +614,7 @@ const App: React.FC = () => {
   );
 };
 
+
 // Modal Styles (used by MainDashboard and AnushaDashboard)
 const modalStyles = {
   overlay: {
@@ -651,15 +652,3 @@ const modalStyles = {
 };
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
