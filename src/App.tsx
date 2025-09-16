@@ -216,14 +216,8 @@ const MainDashboard: React.FC = () => {
             style={{
               margin: '10px',
               width: '100px',
-              height: '100px',
               textAlign: 'center',
-              backgroundColor: monthColor,
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 'bold',
+              backgroundColor: monthColor
             }}
           >
             {month}
@@ -251,7 +245,7 @@ const MainDashboard: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', backgroundColor: '#f8f8ff' , paddingTop: '200px' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', backgroundColor: '#f8f8ff' , paddingTop: '470px' }}>
         <header style={{ width: '100%' }}>
           <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
             <img
@@ -669,6 +663,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
