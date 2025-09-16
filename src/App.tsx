@@ -47,6 +47,10 @@ const MainDashboard: React.FC = () => {
     fetchUploadStatus();
   }, [currentDate]);
 
+  React.useEffect(() => {
+    fetchYearlyUploadStatus();
+  }, [currentYear]);
+
   const fetchUploadStatus = async () => {
     try {
       const response = await fetch("https://9a9fn3wa2l.execute-api.ap-south-1.amazonaws.com/D1/deepshikatest");
@@ -665,5 +669,6 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
