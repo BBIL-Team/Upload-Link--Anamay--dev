@@ -41,7 +41,8 @@ const MainDashboard: React.FC = () => {
   const [currentYear, setCurrentYear] = React.useState<number>(new Date().getFullYear());
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const [uploadStatus, setUploadStatus] = React.useState<{ [key: string]: string }>({});
-
+  const [yearlyUploadStatus, setYearlyUploadStatus] = React.useState<{ [key: string]: string }>({});
+  
   React.useEffect(() => {
     fetchUploadStatus();
   }, [currentDate]);
@@ -664,4 +665,5 @@ const modalStyles = {
 };
 
 export default App;
+
 
