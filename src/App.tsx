@@ -71,13 +71,26 @@ const MainDashboard: React.FC = () => {
       const response = await fetch(" https://evxnr8qxgh.execute-api.ap-south-1.amazonaws.com/T1/Anamay_SuperStockist_Stocks_Tracker");
       if (response.ok) {
         const data = await response.json();
-        console.log("Yearly API Response:", data);
-        setYearlyUploadStatus(data);
+        console.log("Yearly API Response:", JSON.stringify(data, null, 2));
+       // Parse the body string and transform into { "YYYY-MM": "color" } format
+        let transformedData: { [key: string]: string } = {};
+        if (data.body) {
+          const bodyArray = JSON.parse(data.body);
+          transformedData = bodyArray.reduce((acc: { [key: string]: string }, item: { year: number; month: number; status: string }) => {
+            const monthString = `${item.year}-${item.month.toString().padStart(2, '0')}`;
+            acc[monthString] = item.status;
+            return acc;
+          }, {});
+        }
+        console.log("Transformed yearlyUploadStatus:", JSON.stringify(transformedData, null, 2));
+        setYearlyUploadStatus(transformedData);
       } else {
         console.error("Failed to fetch yearly upload status, status:", response.status);
+        setError("Failed to fetch yearly upload status.");
       }
     } catch (error) {
       console.error("Error fetching yearly upload status:", error);
+      setError("An error occurred while fetching yearly upload status.");
     }
   };
 
@@ -94,6 +107,7 @@ const MainDashboard: React.FC = () => {
 
   const getMonthColor = (year: number, month: number): string => {
     const monthString = `${year}-${(month + 1).toString().padStart(2, '0')}`;
+    console.log(`Checking color for ${monthString}:`, yearlyUploadStatus[monthString] || "white");
     return yearlyUploadStatus[monthString] || "white";
   };
 
@@ -656,6 +670,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
