@@ -86,11 +86,9 @@ const MainDashboard: React.FC = () => {
         setYearlyUploadStatus(transformedData);
       } else {
         console.error("Failed to fetch yearly upload status, status:", response.status);
-        setError("Failed to fetch yearly upload status.");
       }
     } catch (error) {
       console.error("Error fetching yearly upload status:", error);
-      setError("An error occurred while fetching yearly upload status.");
     }
   };
 
@@ -670,6 +668,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
