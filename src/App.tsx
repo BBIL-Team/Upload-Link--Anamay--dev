@@ -66,24 +66,13 @@ const MainDashboard: React.FC = () => {
     }
   };
 
-  const fetchYearlyUploadStatus = async () => {
+ const fetchYearlyUploadStatus = async () => {
     try {
-      const response = await fetch(" https://evxnr8qxgh.execute-api.ap-south-1.amazonaws.com/T1/Anamay_SuperStockist_Stocks_Tracker");
+      const response = await fetch("https://evxnr8qxgh.execute-api.ap-south-1.amazonaws.com/T1/Anamay_SuperStockist_Stocks_Tracker");
       if (response.ok) {
         const data = await response.json();
-        console.log("Yearly API Response:", JSON.stringify(data, null, 2));
-       // Parse the body string and transform into { "YYYY-MM": "color" } format
-        let transformedData: { [key: string]: string } = {};
-        if (data.body) {
-          const bodyArray = JSON.parse(data.body);
-          transformedData = bodyArray.reduce((acc: { [key: string]: string }, item: { year: number; month: number; status: string }) => {
-            const monthString = `${item.year}-${item.month.toString().padStart(2, '0')}`;
-            acc[monthString] = item.status;
-            return acc;
-          }, {});
-        }
-        console.log("Transformed yearlyUploadStatus:", JSON.stringify(transformedData, null, 2));
-        setYearlyUploadStatus(transformedData);
+        console.log("Yearly API Response:", data);
+        setYearlyUploadStatus(data);
       } else {
         console.error("Failed to fetch yearly upload status, status:", response.status);
       }
@@ -103,12 +92,12 @@ const MainDashboard: React.FC = () => {
     return "white";
   };
 
+// Modified function to get color for a month based only on Lambda response
   const getMonthColor = (year: number, month: number): string => {
     const monthString = `${year}-${(month + 1).toString().padStart(2, '0')}`;
-    console.log(`Checking color for ${monthString}:`, yearlyUploadStatus[monthString] || "white");
     return yearlyUploadStatus[monthString] || "white";
   };
-
+  
   const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
       return true;
@@ -214,7 +203,7 @@ const MainDashboard: React.FC = () => {
     for (let i = 0; i < months.length; i += 4) {
       const rowMonths = months.slice(i, i + 4).map((month, index) => {
         const monthIndex = i + index;
-        const monthColor = getMonthColor(currentYear, monthIndex);
+        const color = getMonthColor(currentYear, monthIndex);
         return (
           <div
             key={month}
@@ -222,7 +211,7 @@ const MainDashboard: React.FC = () => {
               margin: '10px',
               width: '100px',
               textAlign: 'center',
-              backgroundColor: monthColor
+              backgroundColor: color
             }}
           >
             {month}
@@ -668,6 +657,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
