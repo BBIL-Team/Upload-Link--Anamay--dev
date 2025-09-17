@@ -94,14 +94,7 @@ const MainDashboard: React.FC = () => {
 
   const getMonthColor = (year: number, month: number): string => {
     const monthString = `${year}-${(month + 1).toString().padStart(2, '0')}`;
-    if (yearlyUploadStatus[monthString]) return yearlyUploadStatus[monthString];
-    const today = new Date();
-    const marchFirst = new Date(2025, 2, 1);
-    const givenMonth = new Date(year, month, 1);
-    if (givenMonth >= marchFirst && givenMonth <= today) {
-      return "#ffff66"; // Yellow for past months since March
-    }
-    return "white";
+    return yearlyUploadStatus[monthString] || "white";
   };
 
   const validateFile = (file: File | null): boolean => {
@@ -663,6 +656,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
