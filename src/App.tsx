@@ -397,7 +397,6 @@ const AnushaDashboard: React.FC = () => {
     return yearlyUploadStatus[monthString] || "white";
   };
 
-  
   const validateFile = (file: File | null): boolean => {
     if (file && file.name.endsWith(".csv")) {
       return true;
@@ -478,7 +477,6 @@ const AnushaDashboard: React.FC = () => {
   const nextYear = () => setCurrentYear(currentYear + 1);
   const prevYear = () => setCurrentYear(currentYear - 1);
 
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f8f8ff' }}>
@@ -500,41 +498,45 @@ const AnushaDashboard: React.FC = () => {
           <u>Anamay - Dashboard Update Interface</u>
         </h1>
 
-        {/* Primary Sales Upload */}
-        <div>
-          <h2>&emsp;&emsp;Primary Sales</h2>
-          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
-            &emsp;&emsp;&emsp;&emsp;
-            <input type="file" accept=".csv" onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)} />
-            <button onClick={() => {
-              if (validateFile(PrimarysalesFile)) {
-                uploadFile(PrimarysalesFile, "https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
-              }
-            }}>
-              Submit File
-            </button>
-          </p>
-        </div>
+        {/* Primary Sales, Secondary Sales, and Yearly Calendar Box */}
+        <div style={{
+          width: '90vw',
+          padding: '20px',
+          backgroundColor: '#f0f0f0',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        }}>
+          <div style={{ width: '50%' }}>
+            <h2>Primary Sales</h2>
+            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', marginBottom: '20px' }}>
+              <input type="file" accept=".csv" onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)} />
+              <button onClick={() => {
+                if (validateFile(PrimarysalesFile)) {
+                  uploadFile(PrimarysalesFile, "https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
+                }
+              }}>
+                Submit File
+              </button>
+            </div>
 
-        <hr />
+            <h2>Secondary Sales</h2>
+            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
+              <input type="file" accept=".csv" onChange={(e) => setSecondarysalesFile(e.target.files?.[0] || null)} />
+              <button onClick={() => {
+                if (validateFile(SecondarysalesFile)) {
+                  uploadFile(SecondarysalesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+                }
+              }}>
+                Submit File
+              </button>
+            </div>
+          </div>
 
-        {/* Secondary Sales Upload */}
-        <div>
-          <h2>&emsp;&emsp;Secondary Sales</h2>
-          <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
-            &emsp;&emsp;&emsp;&emsp;
-            <input type="file" accept=".csv" onChange={(e) => setSecondarysalesFile(e.target.files?.[0] || null)} />
-            <button onClick={() => {
-              if (validateFile(SecondarysalesFile)) {
-                uploadFile(SecondarysalesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
-              }
-            }}>
-              Submit File
-            </button>
-          </p>
-        </div>
-
-        <div style={{ width: '40%', padding: '0px', backgroundColor: 'rgb(230,247,255)' }}>
+          <div style={{ width: '40%', padding: '0px', backgroundColor: 'rgb(230,247,255)' }}>
             <h3 style={{ textAlign: 'center' }}>Calendar (Yearly Tracker)</h3>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <button onClick={prevYear}>&lt;</button>
@@ -738,6 +740,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
