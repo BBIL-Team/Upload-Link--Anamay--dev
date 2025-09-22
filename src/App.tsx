@@ -478,25 +478,37 @@ const AnushaDashboard: React.FC = () => {
   const prevYear = () => setCurrentYear(currentYear - 1);
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
-      <header style={{ width: '100%' }}>
-        <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-          <img
-            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK5T2rnUSui6IcY0VrqFZLQMwrrcgabyuKrQ&s"
-            alt="Company Logo"
-            className="logo"
-          />
-        </div>
-        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
-          Sign out
-        </button>
-      </header>
-      
-       <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
-        <u>Anamay - Dashboard Update Interface</u>
-      </h1>
-      
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+        <header style={{ width: '100%' }}>
+          <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
+            <img
+              style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK5T2rnUSui6IcY0VrqFZLQMwrrcgabyuKrQ&s"
+              alt="Company Logo"
+              className="logo"
+            />
+          </div>
+          <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+            Sign out
+          </button>
+        </header>
+        
+        <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
+          <u>Anamay - Dashboard Update Interface</u>
+        </h1>
+        
+        <div style={{
+          width: '90vw',
+          padding: '20px',
+          backgroundColor: '#f0f0f0',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        }}>
           <div style={{ width: '50%' }}>
             <h2>Primary Sales</h2>
             <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', marginBottom: '20px' }}>
@@ -533,8 +545,6 @@ const AnushaDashboard: React.FC = () => {
             {renderYearlyCalendar()}
           </div>
         </div>
-    );
-
 
         {responseMessage && <p>{responseMessage}</p>}
 
@@ -552,8 +562,8 @@ const AnushaDashboard: React.FC = () => {
         )}
       </main>
     </div>
+  );
 };
-
 const Unauthorized: React.FC<{ email: string; userDebug: string }> = ({ email, userDebug }) => {
   const { signOut } = useAuthenticator();
   return (
@@ -728,6 +738,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
