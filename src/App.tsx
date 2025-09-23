@@ -478,75 +478,73 @@ const AnushaDashboard: React.FC = () => {
   const prevYear = () => setCurrentYear(currentYear - 1);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
-        <header style={{ width: '100%' }}>
-          <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
-            <img
-              style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK5T2rnUSui6IcY0VrqFZLQMwrrcgabyuKrQ&s"
-              alt="Company Logo"
-              className="logo"
-            />
-          </div>
-          <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
-            Sign out
-          </button>
-        </header>
-        
-        <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
-          <u>Anamay - Dashboard Update Interface</u>
-        </h1>
-        
-        <div style={{
-          width: '90vw',
-          padding: '20px',
-          backgroundColor: '#f0f0f0',
-          borderRadius: '8px',
-          marginBottom: '20px',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-        }}>
-          <div style={{ width: '50%' }}>
-            <h2>Primary Sales</h2>
-            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', marginBottom: '20px' }}>
-              <input type="file" accept=".csv" onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)} />
-              <button onClick={() => {
-                if (validateFile(PrimarysalesFile)) {
-                  uploadFile(PrimarysalesFile, "https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
-                }
-              }}>
-                Submit File
-              </button>
-            </div>
-
-            <h2>Secondary Sales</h2>
-            <div style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px' }}>
-              <input type="file" accept=".csv" onChange={(e) => setSecondarysalesFile(e.target.files?.[0] || null)} />
-              <button onClick={() => {
-                if (validateFile(SecondarysalesFile)) {
-                  uploadFile(SecondarysalesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
-                }
-              }}>
-                Submit File
-              </button>
-            </div>
-          </div>
-
-          <div style={{ width: '40%', padding: '0px', backgroundColor: 'rgb(230,247,255)' }}>
-            <h3 style={{ textAlign: 'center' }}>Calendar (Yearly Tracker)</h3>
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <button onClick={prevYear}>&lt;</button>
-              <span style={{ margin: '0 10px' }}>{currentYear}</span>
-              <button onClick={nextYear}>&gt;</button>
-            </div>
-            {renderYearlyCalendar()}
-          </div>
+   <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+      <header style={{ width: '100%' }}>
+        <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
+          <img
+            style={{ padding: '10px', width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 50%' }}
+            src="https://media.licdn.com/dms/image/v2/C560BAQFim2B73E6nkA/company-logo_200_200/company-logo_200_200/0/1644228681907/anamaybiotech_logo?e=2147483647&v=beta&t=RnXx4q1rMdk6bI5vKLGU6_rtJuF0hh_1ycTPmWxgZDo"
+            alt="Company Logo"
+            className="logo"
+          />
         </div>
+        <button style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={signOut}>
+          Sign out
+        </button>
+      </header>
 
-        {responseMessage && <p>{responseMessage}</p>}
+      <h1 style={{ padding: '10px', textAlign: 'center', width: '100vw' }}>
+        <u>Anamay - Dashboard Update Interface</u>
+      </h1>
+
+      {/* Stocks File Upload */}
+      <div>
+        <h2>&emsp;&emsp;Anamay Stocks</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px', float: 'left' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setPrimarysalesFile(e.target.files?.[0] || null)}
+          />
+          <button
+            onClick={() => {
+              if (validateFile(PrimarysalesFile)) {
+                uploadFile(PrimarysalesFile, "https://0pas2hqfnd.execute-api.ap-south-1.amazonaws.com/S1/Anamay-PrimarySales-Dev");
+              }
+            }}
+          >
+            Submit Primary Sales File
+          </button>
+        </p>
+      </div>
+
+      <hr />
+
+      {/* Sales File Upload */}
+      <div>
+        <h2>&emsp;&emsp;Anamay Sales</h2>
+        <p style={{ padding: '10px', backgroundColor: '#e6e6e6', borderRadius: '8px', width: '50vw', height: '70px' }}>
+          &emsp;&emsp;&emsp;&emsp;
+          <input
+            type="file"
+            accept=".csv"
+            onChange={(e) => setSecondarysalesFile(e.target.files?.[0] || null)}
+          />
+          <button
+            onClick={() => {
+              if (validateFile(SecondarysalesFile)) {
+                uploadFile(SecondarysalesFile, "https://yu8yamaj62.execute-api.ap-south-1.amazonaws.com/S1/Anamay_Sales_UploadLink_Dev");
+              }
+            }}
+          >
+            Submit Secondary Sales File
+          </button>
+        </p>
+      </div>
+
+      
+      {responseMessage && <p>{responseMessage}</p>}
 
         {/* Modal */}
         {isModalOpen && (
@@ -561,7 +559,6 @@ const AnushaDashboard: React.FC = () => {
           </div>
         )}
       </main>
-    </div>
   );
 };
 const Unauthorized: React.FC<{ email: string; userDebug: string }> = ({ email, userDebug }) => {
@@ -738,6 +735,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
