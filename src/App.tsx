@@ -553,7 +553,9 @@ const AnushaDashboard: React.FC = () => {
             {renderYearlyCalendar()}
           </div>
         </div>
-
+    );
+};
+    
       
       {responseMessage && <p>{responseMessage}</p>}
   
@@ -746,6 +748,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
