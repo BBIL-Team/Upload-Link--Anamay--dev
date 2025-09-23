@@ -546,6 +546,29 @@ const AnushaDashboard: React.FC = () => {
       
       {responseMessage && <p>{responseMessage}</p>}
 
+      {/* Calendar Component */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '40vh',
+          right: '10vw',
+          width: '25vw',
+          padding: '0px',
+          backgroundColor: '#e6f7ff',
+          borderRadius: '8px',
+        }}
+      >
+       <h3 style={{ textAlign: 'center' }}>Calendar (Monthly tracker)</h3>
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <button onClick={prevYear}>&lt; </button>
+          <span style={{ margin: '0 10px' }}>
+            {currentYear.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          </span>
+          <button onClick={nextYear}>&gt; </button>
+        </div>
+        {renderCalendar(currentYear)}
+      </div>
+
         {/* Modal */}
         {isModalOpen && (
           <div style={modalStyles.overlay}>
@@ -735,6 +758,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
