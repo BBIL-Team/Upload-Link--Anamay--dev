@@ -478,7 +478,7 @@ const AnushaDashboard: React.FC = () => {
   const prevYear = () => setCurrentYear(currentYear - 1);
 
   return (
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff' }}>
+      <main style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '90vw', backgroundColor: '#f8f8ff'}}>
         <header style={{ width: '100%' }}>
           <div style={{ width: '130px', height: '90px', overflow: 'hidden', borderRadius: '8px' }}>
             <img
@@ -737,6 +737,7 @@ const modalStyles = {
 };
 
 export default App;
+
 
 
 
